@@ -14,7 +14,7 @@ The model was created using the data from 11 December 2024. The time series data
 
 ### Crime data
 
-The crime rate consists of the number of crimes committed in each London borough per month and by population of each borough. The crime data was recorded by the London Metropolitan Police Service (MPS) in 2024, and can be downloaded from the London Data Store at [MPS Recorded Crime: Geographic Breakdown](https://data.london.gov.uk/dataset/recorded_crime_summary "https://data.london.gov.uk/dataset/recorded_crime_summary"). The population data used was the latest available from 2023, and can be retrieved from the  dataset on the [estimates of the population for England and Wales](https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/estimatesofthepopulationforenglandandwales "https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/estimatesofthepopulationforenglandandwales") of the Office of National Statistics.
+The crime rate data by London borough is retrieved from the webpage on the [Greater London Crime Statistics](https://crimerate.co.uk/london "https://crimerate.co.uk/london") on [CrimeRate](https://crimerate.co.uk/ "https://crimerate.co.uk/"). It regards crime in each borough over the period from October 2023 to September 2024.
 
 ### Amenities data
 
