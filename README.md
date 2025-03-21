@@ -20,6 +20,9 @@ The crime rate data by London borough is retrieved from the webpage on the [Grea
 
 I decided to retrieve data on the amenities located in the vicinities of rentals using the Place Search endpoint of the Foursquare API. The details of the Foursquare API Developers documentation on the Place Search endpoint can be found [here](https://api.foursquare.com/v3/places/search "https://api.foursquare.com/v3/places/search").
 
+### TfL data
+
+I also added the distances to the closest Tube station to the rental unit using the `StopPoint` [endpoint](https://api.tfl.gov.uk/StopPoint/Mode/tube "https://api.tfl.gov.uk/StopPoint/Mode/tube") from the TfL developer API, extracting the geographical coordinates of the Tube stations and using [GeoPy](https://github.com/geopy/geopy "https://github.com/geopy/geopy") to calculate the distances.
 
 ## Model generation
 
