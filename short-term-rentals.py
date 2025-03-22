@@ -151,7 +151,9 @@ inside_airbnb_df['amenities'] = inside_airbnb_df.apply(
     )
 
 inside_airbnb_df.reset_index(inplace=True, drop=True)
-inside_airbnb_df.drop(index=1490, inplace=True, axis=0)
+inside_airbnb_df = inside_airbnb_df.drop(
+    inside_airbnb_df.index[-1], inplace=True
+    )
 
 
 def map_categories(amenities):
