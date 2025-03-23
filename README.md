@@ -18,7 +18,7 @@ The crime rate data by London borough is retrieved from the webpage on the [Grea
 
 ### Amenities data
 
-I decided to retrieve data on the amenities located in the vicinities of rentals using the Place Search endpoint of the Foursquare API. The details of the Foursquare API Developers documentation on the Place Search endpoint can be found [here](https://api.foursquare.com/v3/places/search "https://api.foursquare.com/v3/places/search").
+I decided to retrieve data on the amenities located in the vicinities of rentals using the `Places/Search` endpoint of the Foursquare API. The details of the Foursquare API Developers documentation on the Place Search endpoint can be found [here](https://api.foursquare.com/v3/places/search "https://api.foursquare.com/v3/places/search").
 
 ### TfL data
 
