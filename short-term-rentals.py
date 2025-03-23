@@ -106,6 +106,13 @@ BROAD_CATEGORIES = [
 ]
 
 
+# from collections import Counter
+# flatten_arr = [category for item in inside_airbnb_df.amenities.to_list()
+#                for category in item.split(', ')]
+# counts = Counter(flatten_arr)
+# print(counts)
+
+
 def classify_category(category_name):
     category_name_lower = category_name.lower()
     for broad_category, keywords in BROAD_CATEGORIES:
