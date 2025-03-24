@@ -1,15 +1,19 @@
 from pathlib import Path
-import pandas as pd
 import requests
 import os
 import re
+import pandas as pd
+import numpy as np
+from geopy.distance import geodesic
+from scipy.spatial import KDTree
 
 home_dir = Path.home()
 inside_airbnb_data_dir = home_dir / 'Programming/data/inside-airbnb/london'
 crime_rate_dir = home_dir / 'Programming/data/crime-rate/'
 
 FOURSQUARE_API_KEY = os.environ['FOURSQUARE_API_KEY']
-FOURSQUARE_URL = "https://api.foursquare.com/v3/places/search"
+FOURSQUARE_URL = 'https://api.foursquare.com/v3/places/search'
+TFL_API_URL = 'https://api.tfl.gov.uk/StopPoint/Mode/tube'
 
 inside_airbnb_data_file = inside_airbnb_data_dir / 'listings.csv'
 crime_rate_data_file = (crime_rate_dir /
@@ -152,15 +156,14 @@ def get_nearby_categories(lat, lon, radius=100, limit=3):
         return f"API error: {response.status_code}"
 
 
+print('Applying Foursquare API results')
 inside_airbnb_df['amenities'] = inside_airbnb_df.apply(
     lambda row: get_nearby_categories(row['latitude'],
                                       row['longitude']), axis=1
     )
 
 inside_airbnb_df.reset_index(inplace=True, drop=True)
-inside_airbnb_df = inside_airbnb_df.drop(
-    inside_airbnb_df.index[-1], inplace=True
-    )
+inside_airbnb_df.drop(inside_airbnb_df.index[-1], inplace=True)
 
 
 def map_categories(amenities):
@@ -184,7 +187,47 @@ inside_airbnb_df['amenities'] = inside_airbnb_df['amenities'].apply(
     map_categories
     )
 
-inside_airbnb_df.to_csv(
-    inside_airbnb_data_dir / 'selected_short_term_rentals.csv',
-    index=False
-    )
+response = requests.get(TFL_API_URL)
+if response.status_code == 200:
+    data = response.json()
+else:
+    raise Exception(f"API error: {response.status_code}")
+
+tube_stations = []
+for stop_point in data["stopPoints"]:
+    lat, lon = stop_point["lat"], stop_point["lon"]
+    station_name = stop_point["commonName"]
+    tube_stations.append((station_name, lat, lon))
+
+tube_df = pd.DataFrame(tube_stations,
+                       columns=["Station", "Latitude", "Longitude"]
+                       )
+tube_coords = np.array(tube_df[['Latitude', 'Longitude']])
+tree = KDTree(tube_coords)
+
+
+def find_nearest_station(lat, lon):
+    _, index = tree.query([lat, lon])
+    nearest_station = tube_df.iloc[index]
+    distance = geodesic(
+        (lat, lon),
+        (nearest_station.Latitude, nearest_station.Longitude)
+        ).kilometers
+    return nearest_station.Station.replace(
+        " Underground Station", ""
+        ).replace(" Station", ""), distance
+
+
+print('Applying TfL API results')
+inside_airbnb_df[['nearest_station', 'distance_to_station']] = \
+    inside_airbnb_df.apply(
+        lambda row: find_nearest_station(row['latitude'], row['longitude']),
+        axis=1, result_type='expand'
+        )
+
+selected_data_file = (inside_airbnb_data_dir /
+                      'selected_short_term_rentals_with_distances.csv')
+if not selected_data_file.exists():
+    inside_airbnb_df.to_csv(selected_data_file, index=False)
+
+print('Done!')
