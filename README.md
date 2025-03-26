@@ -22,7 +22,7 @@ I decided to retrieve data on the amenities located in the vicinities of rentals
 
 ### TfL data
 
-I also added the distances from each rental unit to the closest Tube station using the `StopPoint` [endpoint](https://api.tfl.gov.uk/StopPoint/Mode/tube "https://api.tfl.gov.uk/StopPoint/Mode/tube") from the TfL developer API, from whic I extracted the geographical coordinates of the Tube stations and calculated the distance using the [GeoPy](https://github.com/geopy/geopy "https://github.com/geopy/geopy") package.
+I also added the distances from each rental unit to the closest Tube station using the `StopPoint` [endpoint](https://api.tfl.gov.uk/StopPoint/Mode/tube "https://api.tfl.gov.uk/StopPoint/Mode/tube") from the TfL developer API, from which I extracted the geographical coordinates of each Tube station and calculated the distance to the rental unit using the [GeoPy](https://github.com/geopy/geopy "https://github.com/geopy/geopy") package.
 
 ## Model generation
 
