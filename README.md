@@ -1,10 +1,12 @@
 # Project on short term rentals in London, UK
 
-This is a data project with the intent of predicting prices of short-term rents of flats in London. The source of the data for this projects comes from the London page of the Inside AirBNB website. Due to the terms of service of major UK home realtors that don't permit web scraping, I decided to use Inside AirBNB limiting myself on short-term rentals of entire flats. Short term flat rental are those greater than 30 days, of which there are 2059 listed in London currently as of 12th March 2025.
+## Summary
+
+The intent of this data project is to predict prices of short-term flat rentals in London in 2024. Due to the terms of service of major UK home realtors against web scraping, I decided to use the London page of the [Inside AirBNB](https://insideairbnb.com/london/ "https://insideairbnb.com/london/") website and filter on short-term rentals of entire flats or buildings. For the purposes of this study short-term flat rental are those greater than 30 days, of which there are 2059 listed in London currently as of 12th March 2025.
 
 ## Data sources
 
-There are different data sources that are used for this data analysis. Here is a list of them.
+I decided to employ just a few of the features of the data set, notably the number of bedrooms and bathrooms, price per night, borough of the property location, and latitude and longitude of the property, which is randomly offset by 150 meters for purposes of anonymity. The data was also enriched by adding crime rate per borough, number of local amenities and distance fromt he property to the nearest Tube station. Beyond the main source of data, there are several, different data sources used for data enrichment. Here follows a list of them.
 
 ### Short-term housing data
 
@@ -20,9 +22,12 @@ The crime rate data by London borough is retrieved from the webpage on the [Grea
 
 I decided to retrieve data on the amenities located in the vicinities of rentals using the `Places/Search` endpoint of the Foursquare API. The details of the Foursquare API Developers documentation on the Place Search endpoint can be found [here](https://api.foursquare.com/v3/places/search "https://api.foursquare.com/v3/places/search").
 
-### TfL data
+### Transport data
 
-I also added the distances from each rental unit to the closest Tube station using the `StopPoint` [endpoint](https://api.tfl.gov.uk/StopPoint/Mode/tube "https://api.tfl.gov.uk/StopPoint/Mode/tube") from the TfL developer API, from which I extracted the geographical coordinates of each Tube station and calculated the distance to the rental unit using the [GeoPy](https://github.com/geopy/geopy "https://github.com/geopy/geopy") package.
+I also added the distances from each rental unit to the closest Tube station using the `StopPoint` [endpoint](https://api.tfl.gov.uk/StopPoint/Mode/tube "https://api.tfl.gov.uk/StopPoint/Mode/tube") from the Transport for London (TfL) developer API, from which I extracted the geographical coordinates of each Tube station and calculated the distance to the rental unit using the [GeoPy](https://github.com/geopy/geopy "https://github.com/geopy/geopy") package.
+
+## Exploratory data analysis
 
 ## Model generation
 
+## Conclusions
