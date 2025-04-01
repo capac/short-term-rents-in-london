@@ -179,3 +179,6 @@ cython_debug/
 # Graphical plots
 *.jpg
 *.png
+
+# HTML files
+*.html
