@@ -175,3 +175,7 @@ cython_debug/
 
 # PDF documents
 *.pdf
+
+# Graphical plots
+*.jpg
+*.png
