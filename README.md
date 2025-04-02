@@ -2,11 +2,11 @@
 
 ## Summary
 
-The intent of this data project is to predict prices of short-term flat rentals in London in 2024. Due to the terms of service of major UK home realtors against web scraping, I decided to use the London page of the [Inside AirBNB](https://insideairbnb.com/london/ "https://insideairbnb.com/london/") website and filter on short-term rentals of entire flats or buildings. For the purposes of this study short-term flat rental are those greater than 30 days, of which there are 2059 listed in London currently as of 12th March 2025.
+The intent of this data project is to predict prices of short-term flat rentals in London in 2024. Due to the terms of service of major UK home realtors whihc don't allow against web scraping, I decided to use the [Inside AirBNB](https://insideairbnb.com/london/ "https://insideairbnb.com/london/") website and filter the data on short-term rentals of entire flats or buildings for London, UK. For the purposes of this study short-term flat rentals are those greater than 30 days, of which there are 2059 listed in London currently as of 12th March 2025.
 
 ## Data sources
 
-I decided to employ just a few of the features of the data set, notably the number of bedrooms and bathrooms, price per night, borough of the property location, and latitude and longitude of the property, which is randomly offset by 150 meters for purposes of anonymity. The data was also enriched by adding crime rate per borough, number of local amenities and distance fromt he property to the nearest Tube station. Beyond the main source of data, there are several, different data sources used for data enrichment. Here follows a list of them.
+I decided to employ just a few of the features of the data set, notably the number of bedrooms and bathrooms, price per night, borough of the property location, and latitude and longitude of the property, which for purposes of anonymity are randomly offset by 150 meters. The data was also enriched by adding crime rate per borough, local amenities in the vicinity of the property and distance from the property to the nearest Tube station. Beyond the main source of data, there are several, other sources used for data enrichment. Here follows a list of them.
 
 ### Short-term housing data
 
