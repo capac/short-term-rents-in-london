@@ -28,6 +28,14 @@ I also added the distances from each rental unit to the closest Tube station usi
 
 ## Exploratory data analysis
 
+The price distribution of short-term rentals is heavily skewed towards the positive end of the _x_ axis, so it is a good idea to replace the price feature with its logarithm. The logarithm of the price feature is much more normally distrubuted as a consequence of the transformation.
+
+The great majority short-term rentals are listed with a minimum stay of thirty days, with only a few exceptions for longer stays.
+
+The price of most short-term rentals is less than £200 per night, but the distribution is heavily skewed towards the positive _x_ axis. I chose to limit the _x_ axis to £1000 as the upper limit, but there are outliers that are even further up in price.
+
+Most short-term rentals are in the Westminister borough, with Kensington & Chelsea and Tower Hamlets listed in second and third places.
+
 ## Model generation
 
 ## Conclusions
