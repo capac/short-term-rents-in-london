@@ -48,9 +48,10 @@ for eps_param in sil_score_range:
 
 # Silhouette coefficient for different values of eps
 fig, ax = plt.subplots()
-ax.plot(sil_score_range, sil_score_list)
+ax.plot(sil_score_range, sil_score_list, label='min_samples=10')
 ax.set_xlabel("eps")
 ax.set_ylabel("Silhouette coefficient")
+ax.legend(loc=4, handlelength=0, handletextpad=0, prop={'size': 15})
 ax.set_title("Silhouette coefficient for different values of eps")
 plot_filename = path_plots / 'sil-coeff-eps.png'
 if not plot_filename.exists():
@@ -69,9 +70,10 @@ for min_sample in min_sample_range:
 
 # Silhouette coefficient for different values of min_sample
 fig, ax = plt.subplots()
-ax.plot(min_sample_range, sil_score_list)
+ax.plot(min_sample_range, sil_score_list, label='eps=0.07')
 ax.set_xlabel("min_sample")
 ax.set_ylabel("Silhouette coefficient")
+ax.legend(loc=4, handlelength=0, handletextpad=0, prop={'size': 15})
 ax.set_title("Silhouette coefficient for different values of min_sample")
 plot_filename = path_plots / 'sil-coeff-min-sample.png'
 if not plot_filename.exists():
