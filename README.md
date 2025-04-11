@@ -36,6 +36,10 @@ The price of most short-term rentals is less than £200 per night, but the distr
 
 Most short-term rentals are in the Westminister borough, with Kensington & Chelsea and Tower Hamlets listed in second and third places.
 
+### Cluster analysis
+
+I completed the cluster analysis of the rental properties in London. Maximizing by Silhouette coefficient, there appears to be just one major cluster in London (Silhouette score: 0.584). Other subclusters are not visible, and changing the `eps` and `min_sample` parameters in DBSCAN doesn't offer more than one cluster, even with lower Silhouette scores.
+
 ## Model generation
 
 ## Conclusions
