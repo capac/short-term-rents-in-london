@@ -2,7 +2,7 @@
 
 ## Summary
 
-The intent of this data project is to predict prices of short-term flat rentals in London in 2024. Due to the terms of service of major UK home realtors whihc don't allow against web scraping, I decided to use the [Inside AirBNB](https://insideairbnb.com/london/ "https://insideairbnb.com/london/") website and filter the data on short-term rentals of entire flats or buildings for London, UK. For the purposes of this study short-term flat rentals are those greater than 30 days, of which there are 2059 listed in London currently as of 12th March 2025.
+The intent of this data project is to predict prices of short-term flat rentals in London in 2024. Due to the terms of service of major UK home realtors which don't allow against web scraping, I decided to use the [Inside AirBNB](https://insideairbnb.com/london/ "https://insideairbnb.com/london/") website and filter the data on short-term rentals of entire flats or buildings for London, UK. For the purposes of this study short-term flat rentals are those greater than 30 days, of which there are 2059 listed in London currently as of 12th March 2025.
 
 ## Data sources
 
@@ -38,7 +38,7 @@ Most short-term rentals are in the Westminister borough, with Kensington & Chels
 
 ### Cluster analysis
 
-I completed the cluster analysis of the rental properties in London. Maximizing by Silhouette coefficient, there appears to be just one major cluster in London (Silhouette score: 0.584). Other subclusters are not visible, and changing the `eps` and `min_sample` parameters in DBSCAN doesn't offer more than one cluster, even with lower Silhouette scores.
+An analysis of possible clusters of rental properties in London was determined by finding the number of clusters that maximized the [Silhouette coefficient](https://en.wikipedia.org/wiki/Silhouette_(clustering) "https://en.wikipedia.org/wiki/Silhouette_(clustering)"). The maximum Silhouette score (0.584) is achieved with just one big cluster of properties that covers the entire city, with no other discernible subclusters visible. The Silhouette score was calculated using [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN") in Scikit-Learn, and fine-tuning the `eps` and `min_sample` parameters, which are the most important parameters for DBSCAN, doesn't offer more than one cluster even with lower Silhouette scores.
 
 ## Model generation
 
