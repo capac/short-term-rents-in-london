@@ -15,7 +15,7 @@ inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')
 
 # output direcotry for plots
-path_plots = INSIDE_AIRBNB_WORK_PATH / 'plots'
+path_plots = INSIDE_AIRBNB_WORK_PATH / 'plots' / 'histograms'
 path_plots.mkdir(exist_ok=True, parents=True)
 
 # matplotlib style file
@@ -59,6 +59,18 @@ ax.hist(prices_data, bins=50)
 ax.set_title('Histogram of logarithmic price distribution')
 ax.set_xlabel('Price per night (in logarithm of GBP)')
 plot_filename = path_plots / 'hist_log_price_distrib.png'
+if not plot_filename.exists():
+    plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
+
+
+# minimum number of nights data distribution
+min_nights_data = inside_airbnb_df.minimum_nights.values
+min_nights_data = min_nights_data.astype('int')
+fig, ax = plt.subplots(nrows=1, ncols=1)
+ax.hist(min_nights_data, bins=50, range=[1, 400])
+ax.set_title('Histogram of minimum number of nights data distribution')
+ax.set_xlabel('Minimum number of nights')
+plot_filename = path_plots / 'min_nights_data_distrib.png'
 if not plot_filename.exists():
     plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
 
