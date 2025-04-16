@@ -4,22 +4,22 @@ import pandas as pd
 import numpy as np
 
 # working directories
-home_dir = Path.home()
-inside_airbnb_data_dir = home_dir / 'Programming/data/inside-airbnb/london'
-inside_airbnb_work_dir = (home_dir / 'Programming/Python/'
-                          'machine-learning-exercises/'
-                          'short-term-rents-in-london')
-inside_airbnb_data_file = (inside_airbnb_data_dir /
+HOME_PATH = Path.home()
+INSIDE_AIRBNB_DATA_PATH = HOME_PATH / 'Programming/data/inside-airbnb/london'
+INSIDE_AIRBNB_WORK_PATH = (HOME_PATH / 'Programming/Python/'
+                           'machine-learning-exercises/'
+                           'short-term-rents-in-london')
+inside_airbnb_data_file = (INSIDE_AIRBNB_DATA_PATH /
                            'selected_short_term_rentals_with_distances.csv')
 inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')
 
 # output direcotry for plots
-path_plots = inside_airbnb_work_dir / 'plots'
+path_plots = INSIDE_AIRBNB_WORK_PATH / 'plots'
 path_plots.mkdir(exist_ok=True, parents=True)
 
 # matplotlib style file
-mplstyle_file = inside_airbnb_work_dir / 'barplot-style.mplstyle'
+mplstyle_file = INSIDE_AIRBNB_WORK_PATH / 'barplot-style.mplstyle'
 plt.style.use(mplstyle_file)
 
 # drop unnecessary features
