@@ -22,10 +22,6 @@ path_plots.mkdir(exist_ok=True, parents=True)
 mplstyle_file = INSIDE_AIRBNB_WORK_PATH / 'barplot-style.mplstyle'
 plt.style.use(mplstyle_file)
 
-# drop unnecessary features
-inside_airbnb_df.drop(['room_type', 'nearest_station', 'minimum_nights'],
-                      axis=1, inplace=True)
-
 
 # short term rentals by borough
 borough_sr = inside_airbnb_df.borough.value_counts()
