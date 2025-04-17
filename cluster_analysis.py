@@ -28,7 +28,7 @@ coordinates = inside_airbnb_df[['latitude', 'longitude']]
 
 # Using DBSCAN for cluster similarity search
 eps = 0.08
-min_samples = 400
+min_samples = 500
 db = DBSCAN(
     eps=eps,
     min_samples=min_samples,
