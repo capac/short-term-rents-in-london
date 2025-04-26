@@ -175,11 +175,11 @@ print(f'R2 for stocastic gradient descent: {round(sgdr_r2_score, 5)}\n')
 print('Support vector regressor')
 svr = SVR()
 svr.fit(X_train_prepared_df, y_train)
-y_pred_svr = rfr.predict(X_val_prepared_df)
+y_pred_svr = svr.predict(X_val_prepared_df)
 svr_rmse = root_mean_squared_error(y_val, y_pred_svr)
 print(f'RMSE for support vector regressor: {round(svr_rmse, 5)}')
 svr_r2_score = r2_score(y_val, y_pred_svr)
-print(f'R2 for support vector regressor: {round(svr_r2_score, 5)}\n')
+print(f'R2 for support vector regressor: {round(svr_r2_score, 5)}\n\n')
 
 
 print('Cross validation for linear regression')
@@ -188,9 +188,9 @@ lr_rmses = -cross_val_score(
     scoring='neg_root_mean_squared_error',
     cv=10
 )
-lr_cv_sr = pd.Series(lr_rmses)
-print(f"RMSE mean and std dev: {lr_cv_sr.describe().loc['mean']:.5f} ± "
-      f"{lr_cv_sr.describe().loc['std']:.5f}\n")
+lr_cv_sr = pd.Series(lr_rmses).describe()
+print(f"RMSE mean and std dev: {lr_cv_sr.loc['mean']:.5f} ± "
+      f"{lr_cv_sr.loc['std']:.5f}\n")
 
 
 print('Cross validation for decision trees regressor')
@@ -199,9 +199,9 @@ dtr_rmses = -cross_val_score(
     scoring='neg_root_mean_squared_error',
     cv=10
 )
-dtr_cv_sr = pd.Series(dtr_rmses)
-print(f"RMSE mean and std dev: {dtr_cv_sr.describe().loc['mean']:.5f} ± "
-      f"{dtr_cv_sr.describe().loc['std']:.5f}\n")
+dtr_cv_sr = pd.Series(dtr_rmses).describe()
+print(f"RMSE mean and std dev: {dtr_cv_sr.loc['mean']:.5f} ± "
+      f"{dtr_cv_sr.loc['std']:.5f}\n")
 
 
 print('Cross validation for random forests regressor')
@@ -210,9 +210,9 @@ rfr_rmses = -cross_val_score(
     scoring='neg_root_mean_squared_error',
     cv=10
 )
-rfr_cv_sr = pd.Series(rfr_rmses)
-print(f"RMSE mean and std dev: {rfr_cv_sr.describe().loc['mean']:.5f} ± "
-      f"{rfr_cv_sr.describe().loc['std']:.5f}\n")
+rfr_cv_sr = pd.Series(rfr_rmses).describe()
+print(f"RMSE mean and std dev: {rfr_cv_sr.loc['mean']:.5f} ± "
+      f"{rfr_cv_sr.loc['std']:.5f}\n")
 
 
 print('Cross validation for stocastic gradient descent regressor')
@@ -221,9 +221,9 @@ sgdr_rmses = -cross_val_score(
     scoring='neg_root_mean_squared_error',
     cv=10
 )
-sgdr_cv_sr = pd.Series(sgdr_rmses)
-print(f"RMSE mean and std dev: {sgdr_cv_sr.describe().loc['mean']:.5f} ± "
-      f"{sgdr_cv_sr.describe().loc['std']:.5f}\n")
+sgdr_cv_sr = pd.Series(sgdr_rmses).describe()
+print(f"RMSE mean and std dev: {sgdr_cv_sr.loc['mean']:.5f} ± "
+      f"{sgdr_cv_sr.loc['std']:.5f}\n")
 
 
 print('Cross validation for support vector machine regressor')
@@ -232,7 +232,6 @@ svr_rmses = -cross_val_score(
     scoring='neg_root_mean_squared_error',
     cv=10
 )
-svr_cv_sr = pd.Series(svr_rmses)
-print(f"RMSE mean and std dev: {svr_cv_sr.describe().loc['mean']:.5f} ± "
-      f"{svr_cv_sr.describe().loc['std']:.5f}\n")
-print('Done!')
+svr_cv_sr = pd.Series(svr_rmses).describe()
+print(f"RMSE mean and std dev: {svr_cv_sr.loc['mean']:.5f} ± "
+      f"{svr_cv_sr.loc['std']:.5f}")
