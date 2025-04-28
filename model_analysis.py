@@ -13,6 +13,8 @@ from sklearn.linear_model import LinearRegression, SGDRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
+import xgboost as xgb
+from sklearn.base import clone
 from sklearn.metrics import root_mean_squared_error, r2_score
 from sklearn.model_selection import cross_val_score
 
@@ -131,35 +133,36 @@ print(f'Training size: {round(len(X_train_prepared_df)/len_df, 5):>10}')
 print(f'Validation size: {round(len(X_val_prepared_df)/len_df, 5):>8}')
 print(f'Testing size: {round(len(X_test_prepared_df)/len_df, 5):>11}\n')
 
+
 # Predictive modeling
 print('Linear regression')
 lr = LinearRegression()
 lr.fit(X_train_prepared_df, y_train)
 y_pred_lr = lr.predict(X_val_prepared_df)
 lr_rmse = root_mean_squared_error(y_val, y_pred_lr)
-print(f'RMSE for linear regression: {round(lr_rmse, 5)}')
+print(f'Validation RMSE for linear regression: {round(lr_rmse, 5)}')
 lr_r2_score = r2_score(y_val, y_pred_lr)
-print(f'R2 for linear regression: {round(lr_r2_score, 5)}\n')
+print(f'Validation R2 for linear regression: {round(lr_r2_score, 5)}\n')
 
 
-print('Decision trees')
+print('Decision tree regressor')
 dtr = DecisionTreeRegressor(random_state=42)
 dtr.fit(X_train_prepared_df, y_train)
 y_pred_dtr = dtr.predict(X_val_prepared_df)
 dtr_rmse = root_mean_squared_error(y_val, y_pred_dtr)
-print(f'RMSE for decision tree: {round(dtr_rmse, 5)}')
+print(f'Validation RMSE for decision tree: {round(dtr_rmse, 5)}')
 dtr_r2_score = r2_score(y_val, y_pred_dtr)
-print(f'R2 for linear regression: {round(dtr_r2_score, 5)}\n')
+print(f'Validation R2 for linear regression: {round(dtr_r2_score, 5)}\n')
 
 
-print('Random forests')
+print('Random forest regressor')
 rfr = RandomForestRegressor(random_state=42)
 rfr.fit(X_train_prepared_df, y_train)
 y_pred_rfr = rfr.predict(X_val_prepared_df)
 rfr_rmse = root_mean_squared_error(y_val, y_pred_rfr)
-print(f'RMSE for random forest regressor: {round(rfr_rmse, 5)}')
+print(f'Validation RMSE for random forest regressor: {round(rfr_rmse, 5)}')
 rfr_r2_score = r2_score(y_val, y_pred_rfr)
-print(f'R2 for random forest regressor: {round(rfr_r2_score, 5)}\n')
+print(f'Validation R2 for random forest regressor: {round(rfr_r2_score, 5)}\n')
 
 
 print('Stocastic gradient descent regressor')
@@ -167,9 +170,11 @@ sgdr = SGDRegressor(random_state=42)
 sgdr.fit(X_train_prepared_df, y_train)
 y_pred_sgdr = sgdr.predict(X_val_prepared_df)
 sgdr_rmse = root_mean_squared_error(y_val, y_pred_sgdr)
-print(f'RMSE for stocastic gradient descent: {round(sgdr_rmse, 5)}')
+print(f'Validation RMSE for stocastic gradient descent: '
+      f'{round(sgdr_rmse, 5)}')
 sgdr_r2_score = r2_score(y_val, y_pred_sgdr)
-print(f'R2 for stocastic gradient descent: {round(sgdr_r2_score, 5)}\n')
+print(f'Validation R2 for stocastic gradient descent: '
+      f'{round(sgdr_r2_score, 5)}\n')
 
 
 print('Support vector regressor')
@@ -177,61 +182,102 @@ svr = SVR()
 svr.fit(X_train_prepared_df, y_train)
 y_pred_svr = svr.predict(X_val_prepared_df)
 svr_rmse = root_mean_squared_error(y_val, y_pred_svr)
-print(f'RMSE for support vector regressor: {round(svr_rmse, 5)}')
+print(f'Validation RMSE for support vector regressor: '
+      f'{round(svr_rmse, 5)}')
 svr_r2_score = r2_score(y_val, y_pred_svr)
-print(f'R2 for support vector regressor: {round(svr_r2_score, 5)}\n\n')
+print(f'Validation R2 for support vector regressor: '
+      f'{round(svr_r2_score, 5)}\n')
 
 
+print('XGBoost regressor')
+reg = xgb.XGBRegressor(
+    tree_method="hist",
+    eval_metric=root_mean_squared_error,
+    max_depth=10,
+    n_estimators=100,
+    verbosity=0,
+)
+reg.fit(
+    X_train_prepared_df, y_train, verbose=False,
+    eval_set=[(X_train_prepared_df, y_train)]
+)
+y_pred_reg = reg.predict(X_val_prepared_df)
+reg_rmse = root_mean_squared_error(y_val, y_pred_reg)
+print(f'Validation RMSE for XGBoost regressor: {round(reg_rmse, 5)}')
+reg_r2_score = r2_score(y_val, y_pred_reg)
+print(f'Validation R2 for XGBoost regressor: {round(reg_r2_score, 5)}\n\n')
+
+
+# Cross validation
 print('Cross validation for linear regression')
+cloned_lr = clone(lr)
 lr_rmses = -cross_val_score(
-    lr, X_train_prepared_df, y_train,
+    cloned_lr, X_train_prepared_df, y_train,
     scoring='neg_root_mean_squared_error',
-    cv=10
+    cv=10,
 )
 lr_cv_sr = pd.Series(lr_rmses).describe()
-print(f"RMSE mean and std dev: {lr_cv_sr.loc['mean']:.5f} ± "
+print(f"Cross-validation RMSE mean and std dev: {lr_cv_sr.loc['mean']:.5f} ± "
       f"{lr_cv_sr.loc['std']:.5f}\n")
 
 
-print('Cross validation for decision trees regressor')
+print('Cross validation for decision tree regressor')
+cloned_dtr = clone(dtr)
 dtr_rmses = -cross_val_score(
-    dtr, X_train_prepared_df, y_train,
+    cloned_dtr, X_train_prepared_df, y_train,
     scoring='neg_root_mean_squared_error',
-    cv=10
+    cv=10,
 )
 dtr_cv_sr = pd.Series(dtr_rmses).describe()
-print(f"RMSE mean and std dev: {dtr_cv_sr.loc['mean']:.5f} ± "
+print(f"Cross-validation RMSE mean and std dev: {dtr_cv_sr.loc['mean']:.5f} ± "
       f"{dtr_cv_sr.loc['std']:.5f}\n")
 
 
-print('Cross validation for random forests regressor')
+print('Cross validation for random forest regressor')
+cloned_rfr = clone(rfr)
 rfr_rmses = -cross_val_score(
-    rfr, X_train_prepared_df, y_train,
+    cloned_rfr, X_train_prepared_df, y_train,
     scoring='neg_root_mean_squared_error',
-    cv=10
+    cv=10,
 )
 rfr_cv_sr = pd.Series(rfr_rmses).describe()
-print(f"RMSE mean and std dev: {rfr_cv_sr.loc['mean']:.5f} ± "
+print(f"Cross-validation RMSE mean and std dev: "
+      f"{rfr_cv_sr.loc['mean']:.5f} ± "
       f"{rfr_cv_sr.loc['std']:.5f}\n")
 
 
 print('Cross validation for stocastic gradient descent regressor')
+cloned_sgdr = clone(sgdr)
 sgdr_rmses = -cross_val_score(
-    sgdr, X_train_prepared_df, y_train,
+    cloned_sgdr, X_train_prepared_df, y_train,
     scoring='neg_root_mean_squared_error',
-    cv=10
+    cv=10,
 )
 sgdr_cv_sr = pd.Series(sgdr_rmses).describe()
-print(f"RMSE mean and std dev: {sgdr_cv_sr.loc['mean']:.5f} ± "
+print(f"Cross-validation RMSE mean and std dev: "
+      f"{sgdr_cv_sr.loc['mean']:.5f} ± "
       f"{sgdr_cv_sr.loc['std']:.5f}\n")
 
 
 print('Cross validation for support vector machine regressor')
+cloned_svr = clone(svr)
 svr_rmses = -cross_val_score(
-    svr, X_train_prepared_df, y_train,
+    cloned_svr, X_train_prepared_df, y_train,
     scoring='neg_root_mean_squared_error',
-    cv=10
+    cv=10,
 )
 svr_cv_sr = pd.Series(svr_rmses).describe()
-print(f"RMSE mean and std dev: {svr_cv_sr.loc['mean']:.5f} ± "
-      f"{svr_cv_sr.loc['std']:.5f}")
+print(f"Cross-validation RMSE mean and std dev: {svr_cv_sr.loc['mean']:.5f} ± "
+      f"{svr_cv_sr.loc['std']:.5f}\n")
+
+
+print('Cross validation for XGBoost regressor')
+cloned_reg = clone(reg)
+reg_rmses = -cross_val_score(
+    cloned_reg, X_train_prepared_df, y_train,
+    scoring='neg_root_mean_squared_error',
+    cv=10,
+)
+reg_cv_sr = pd.Series(reg_rmses).describe()
+print(f"Cross-validation RMSE mean and std dev: {reg_cv_sr.loc['mean']:.5f} ± "
+      f"{reg_cv_sr.loc['std']:.5f}\n\n")
