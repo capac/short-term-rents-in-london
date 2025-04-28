@@ -281,3 +281,12 @@ reg_rmses = -cross_val_score(
 reg_cv_sr = pd.Series(reg_rmses).describe()
 print(f"Cross-validation RMSE mean and std dev: {reg_cv_sr.loc['mean']:.5f} ± "
       f"{reg_cv_sr.loc['std']:.5f}\n\n")
+
+
+# Results for test data set
+print('Support vector regressor using test dataset')
+y_pred_svr = svr.predict(X_test_prepared_df)
+svr_rmse = root_mean_squared_error(y_test, y_pred_svr)
+print(f'Test RMSE for support vector regressor: {round(svr_rmse, 5)}')
+svr_r2_score = r2_score(y_test, y_pred_svr)
+print(f'Test R2 for support vector regressor: {round(svr_r2_score, 5)}\n')
