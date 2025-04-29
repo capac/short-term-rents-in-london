@@ -17,6 +17,7 @@ import xgboost as xgb
 from sklearn.base import clone
 from sklearn.metrics import root_mean_squared_error, r2_score
 from sklearn.model_selection import cross_val_score
+from statsmodels.formula.api import ols
 
 home_dir = Path.home()
 inside_airbnb_data_dir = (
@@ -289,4 +290,14 @@ y_pred_svr = svr.predict(X_test_prepared_df)
 svr_rmse = root_mean_squared_error(y_test, y_pred_svr)
 print(f'Test RMSE for support vector regressor: {round(svr_rmse, 5)}')
 svr_r2_score = r2_score(y_test, y_pred_svr)
-print(f'Test R2 for support vector regressor: {round(svr_r2_score, 5)}\n')
+print(f'Test R2 for support vector regressor: {round(svr_r2_score, 5)}\n\n')
+
+
+# OLS regression results from statsmodels
+lm = ols(
+    'log_price ~ property_type + crime_rate + bedrooms + minimum_nights '
+    '+ borough + distance_to_station + bathrooms + amenity_1 + amenity_3 '
+    '+ amenity_2', data=inside_airbnb_df
+    )
+model = lm.fit()
+print(model.summary().tables[0])
