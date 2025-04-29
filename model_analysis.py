@@ -300,4 +300,10 @@ lm = ols(
     '+ amenity_2', data=inside_airbnb_df
     )
 model = lm.fit()
+mean_log_price = np.mean(y_train).round(5)
+rse = np.sqrt(model.mse_resid).round(5)
+print(f'Mean and residual standard error of the logarithmic price: '
+      f'{mean_log_price} ± '
+      f'{rse}\n')
+
 print(model.summary().tables[0])
