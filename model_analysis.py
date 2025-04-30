@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import make_pipeline
+from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -17,6 +17,7 @@ from sklearn.base import clone
 from sklearn.metrics import root_mean_squared_error, r2_score
 from sklearn.model_selection import cross_val_score
 from statsmodels.formula.api import ols
+import joblib
 
 home_dir = Path.home()
 inside_airbnb_data_dir = (
@@ -237,7 +238,7 @@ print(f"Cross-validation RMSE mean and std dev: "
       f"{sgdr_cv_sr.loc['std']:.5f}\n")
 
 
-print('Cross validation for support vector machine regressor')
+print('Cross validation for support vector regressor')
 cloned_svr = clone(svr)
 svr_rmses = -cross_val_score(
     cloned_svr, X_train_prepared_df, y_train,
@@ -301,4 +302,21 @@ perc_error = (100*rse/mean_price).round(1)
 print(f'Error percentage of the residual '
       f'standard error to the mean: {perc_error}%\n\n')
 
-print(model.summary().tables[0])
+print(model.summary().tables[0], end='\n\n')
+
+
+# Calculating support vector regressor model on entire
+# data set and saving model to a pickle file
+print('Calculating support vector regressor model on entire data set')
+full_pipeline = Pipeline([
+    ('preprocessing', preprocessing),
+    ('svm_regressor', SVR()),
+])
+X_full = inside_airbnb_df.drop(['log_price'], axis=1)
+y_full = inside_airbnb_df['log_price'].copy()
+full_pipeline.fit(X_full, y_full)
+model_file = inside_airbnb_work_dir / 'model.pkl'
+if not model_file.exists():
+    print(f'Saving model file to {model_file}')
+    joblib.dump(full_pipeline, model_file)
+print('\nDone!')
