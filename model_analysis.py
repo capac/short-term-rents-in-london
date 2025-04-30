@@ -10,7 +10,6 @@ from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.linear_model import LinearRegression, SGDRegressor
-from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
 import xgboost as xgb
@@ -146,16 +145,6 @@ lr_r2_score = r2_score(y_val, y_pred_lr)
 print(f'Validation R2 for linear regression: {round(lr_r2_score, 5)}\n')
 
 
-print('Decision tree regressor')
-dtr = DecisionTreeRegressor(random_state=42)
-dtr.fit(X_train_prepared_df, y_train)
-y_pred_dtr = dtr.predict(X_val_prepared_df)
-dtr_rmse = root_mean_squared_error(y_val, y_pred_dtr)
-print(f'Validation RMSE for decision tree: {round(dtr_rmse, 5)}')
-dtr_r2_score = r2_score(y_val, y_pred_dtr)
-print(f'Validation R2 for linear regression: {round(dtr_r2_score, 5)}\n')
-
-
 print('Random forest regressor')
 rfr = RandomForestRegressor(random_state=42)
 rfr.fit(X_train_prepared_df, y_train)
@@ -220,18 +209,6 @@ lr_rmses = -cross_val_score(
 lr_cv_sr = pd.Series(lr_rmses).describe()
 print(f"Cross-validation RMSE mean and std dev: {lr_cv_sr.loc['mean']:.5f} ± "
       f"{lr_cv_sr.loc['std']:.5f}\n")
-
-
-print('Cross validation for decision tree regressor')
-cloned_dtr = clone(dtr)
-dtr_rmses = -cross_val_score(
-    cloned_dtr, X_train_prepared_df, y_train,
-    scoring='neg_root_mean_squared_error',
-    cv=10,
-)
-dtr_cv_sr = pd.Series(dtr_rmses).describe()
-print(f"Cross-validation RMSE mean and std dev: {dtr_cv_sr.loc['mean']:.5f} ± "
-      f"{dtr_cv_sr.loc['std']:.5f}\n")
 
 
 print('Cross validation for random forest regressor')
