@@ -310,7 +310,7 @@ print(model.summary().tables[0], end='\n\n')
 print('Calculating support vector regressor model on entire data set')
 full_pipeline = Pipeline([
     ('preprocessing', preprocessing),
-    ('svm_regressor', SVR()),
+    ('svm_regressor', SVR(C=1.0, epsilon=0.1)),
 ])
 X_full = inside_airbnb_df.drop(['log_price'], axis=1)
 y_full = inside_airbnb_df['log_price'].copy()
