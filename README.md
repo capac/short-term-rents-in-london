@@ -1,4 +1,4 @@
-# Project on short term rentals in London, UK
+# Project on short term rentals in London UK
 
 ## Summary
 
