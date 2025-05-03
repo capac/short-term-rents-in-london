@@ -55,3 +55,5 @@ The project was really enjoyable, and the part I liked the most was creating a n
 [Short-Term Rental Price Estimator &bull; Streamlit](https://rental-pricing-app.streamlit.app/ "https://rental-pricing-app.streamlit.app/")
 
 Enjoy!
+
+**Notes:** For the data analysis, the following software packages were used: Scikit-Learn (version 1.6.1), Matplotlib (version 3.10.0), Statsmodels (version 0.14.4), XGBoost (version 3.0.0), GeoPy (version 2.4.1), GeoPandas (version 1.0.1), Streamlit (version 1.45.0), Pandas (version 2.2.3) and NumPy (version 2.2.4).
