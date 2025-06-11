@@ -28,14 +28,10 @@ sil_coeff_dir = inside_airbnb_work_dir / 'plots' / 'silhouette_coefficients'
 sil_coeff_dir.mkdir(parents=True, exist_ok=True)
 
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'selected_short_term_rentals_with_distances.csv'
+    inside_airbnb_data_dir / 'selected_short_term_rentals_for_modeling.csv'
     )
 inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')
-
-inside_airbnb_df.drop(['room_type', 'nearest_station'], axis=1, inplace=True)
-inside_airbnb_df['borough'] = \
-    inside_airbnb_df['borough'].replace({r'\s': r'_'}, regex=True)
 
 mplstyle_file = inside_airbnb_work_dir / 'barplot-style.mplstyle'
 plt.style.use(mplstyle_file)
@@ -112,8 +108,8 @@ def plot_clusters(coordinates, eps=0.03, min_samples=10):
 
 
 # set parameters
-eps = 0.08
-min_samples = 500
+eps = 0.03
+min_samples = 400
 
 # plotting cluster points in London, UK
 coordinates = inside_airbnb_df[['latitude', 'longitude']]
@@ -122,7 +118,7 @@ plot_clusters(coordinates, eps=eps, min_samples=min_samples)
 
 # Fine-tuning silhouette coefficient
 sil_score_dict = {}
-eps_range = np.linspace(0.01, 0.1, 10)
+eps_range = np.linspace(0.005, 0.05, 10)
 print('Calculating optimal value for eps...')
 for eps_param in eps_range:
     db = DBSCAN(eps=eps_param, min_samples=min_samples,
@@ -136,7 +132,7 @@ for eps_param in eps_range:
               f'1 cluster found for eps={eps_param.round(2)}')
 
 fig, ax = plt.subplots()
-ax.plot(sil_score_dict.keys(), sil_score_dict.values(),
+ax.plot(list(sil_score_dict.keys()), list(sil_score_dict.values()),
         label='min_samples={}'.format(min_samples))
 ax.legend(loc=4, handlelength=0, handletextpad=0, prop={'size': 15})
 ax.set_xlabel("eps")
@@ -149,7 +145,7 @@ if not sil_coeff_filename.exists():
 
 
 sil_score_dict = {}
-min_sample_range = np.linspace(50, 1000, 10)
+min_sample_range = np.linspace(10, 1000, 21)
 print('Calculating optimal value for min_samples...')
 for min_sample in min_sample_range:
     db = DBSCAN(eps=eps, min_samples=int(min_sample),
@@ -160,10 +156,10 @@ for min_sample in min_sample_range:
         sil_score_dict[min_sample] = sil_score
     else:
         print(f'Silhouette score cannot be computed: '
-              f'only 1 cluster found for min_sample={min_sample}')
+              f'only 1 cluster found for min_sample={min_sample.round(2)}')
 
 fig, ax = plt.subplots()
-ax.plot(sil_score_dict.keys(), sil_score_dict.values(),
+ax.plot(list(sil_score_dict.keys()), list(sil_score_dict.values()),
         label='eps={}'.format(eps))
 ax.legend(loc=1, handlelength=0, handletextpad=0, prop={'size': 15})
 ax.set_xlabel("min_sample")

@@ -12,23 +12,17 @@ home_dir = Path.home()
 inside_airbnb_data_dir = (
     home_dir / 'Programming/data/inside-airbnb/london'
     )
-inside_airbnb_work_dir = (
-    home_dir /
-    'Programming/Python/machine-learning-exercises/short-term-rents-in-london'
-    )
-
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'selected_short_term_rentals_with_distances.csv'
+    inside_airbnb_data_dir / 'selected_short_term_rentals_for_modeling.csv'
     )
 inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')
 
-inside_airbnb_df.drop(['room_type', 'nearest_station'], axis=1, inplace=True)
 coordinates = inside_airbnb_df[['latitude', 'longitude']]
 
 # Using DBSCAN for cluster similarity search
-eps = 0.08
-min_samples = 500
+eps = 0.03
+min_samples = 400
 db = DBSCAN(
     eps=eps,
     min_samples=min_samples,
@@ -52,8 +46,8 @@ def calculate_cluster_center(cluster_label):
     print(f'Cluster center {cluster_label}; '
           f'latitude: {cluster_center.iloc[0]:.5f}, '
           f'longitude: {cluster_center.iloc[1]:.5f}')
-    return cluster_center
 
 
-for index in list(np.unique(labels)):
-    _ = calculate_cluster_center(index)
+if __name__ == "__main__":
+    for index in list(np.unique(labels)):
+        calculate_cluster_center(index)
