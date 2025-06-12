@@ -22,11 +22,11 @@ import joblib
 home_dir = Path.home()
 inside_airbnb_data_dir = (
     home_dir / 'Programming/data/inside-airbnb/london'
-)
+    )
 inside_airbnb_work_dir = (
     home_dir /
     'Programming/Python/machine-learning-exercises/short-term-rents-in-london'
-)
+    )
 
 plots_dir = inside_airbnb_work_dir / 'plots'
 plots_dir.mkdir(parents=True, exist_ok=True)
@@ -35,30 +35,17 @@ hist_dir.mkdir(parents=True, exist_ok=True)
 
 # Data preparation
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir /
-    'selected_short_term_rentals_with_distances.csv'
-)
+    inside_airbnb_data_dir / 'selected_short_term_rentals_for_modeling.csv'
+    )
 inside_airbnb_df = pd.read_csv(
     inside_airbnb_data_file,
     keep_default_na=False, thousands=','
-)
-
-inside_airbnb_df.drop(['room_type', 'nearest_station'], axis=1, inplace=True)
-inside_airbnb_df['borough'] = \
-    inside_airbnb_df['borough'].replace({r'\s': r'_'}, regex=True)
-
-inside_airbnb_df = \
-    inside_airbnb_df.loc[inside_airbnb_df['borough'] != 'Sutton']
-
-inside_airbnb_df[['amenity_1', 'amenity_2', 'amenity_3']] = \
-    inside_airbnb_df['amenities'].str.split(',', expand=True)
-inside_airbnb_df = inside_airbnb_df.drop('amenities', axis=1)
+    )
 
 inside_airbnb_df['log_price'] = np.log1p(inside_airbnb_df['price'])
 inside_airbnb_df = inside_airbnb_df.drop('price', axis=1)
 
 inside_airbnb_df = inside_airbnb_df.drop(['latitude', 'longitude'], axis=1)
-
 
 df_full_train, df_test = train_test_split(inside_airbnb_df, test_size=0.2,
                                           random_state=33,
@@ -83,10 +70,11 @@ y_test = y_test.reset_index(drop=True)
 
 
 # Data pipeline
-cat_attribs = ['borough', 'property_type', 'amenity_1',
-               'amenity_2', 'amenity_3']
-num_attribs = ['bathrooms', 'bedrooms', 'minimum_nights',
-               'crime_rate', 'distance_to_station']
+cat_attribs = ['borough', 'property_type', 'room_type', 'first_amenity',
+               'second_amenity', 'third_amenity']
+num_attribs = ['bathrooms', 'bedrooms', 'acomodates', 'availability_365',
+               'crime_rate', 'days_from_last_review', 'log_price'
+               'distance_to_nearest_tube_station']
 
 num_pipeline = make_pipeline(
     SimpleImputer(strategy='median'),
