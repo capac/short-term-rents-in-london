@@ -29,11 +29,6 @@ inside_airbnb_work_dir = (
     'Programming/Python/machine-learning-exercises/short-term-rents-in-london'
     )
 
-plots_dir = inside_airbnb_work_dir / 'plots'
-plots_dir.mkdir(parents=True, exist_ok=True)
-hist_dir = plots_dir / 'histograms'
-hist_dir.mkdir(parents=True, exist_ok=True)
-
 # Start of model analysis
 start = time.perf_counter()
 
@@ -123,9 +118,12 @@ X_test_prepared_df = pd.DataFrame(
 )
 
 len_df = inside_airbnb_df.shape[0]
-print(f'Training size: {round(len(X_train_prepared_df)/len_df, 5)}')
-print(f'Validation size: {round(len(X_val_prepared_df)/len_df, 5)}')
-print(f'Testing size: {round(len(X_test_prepared_df)/len_df, 5)}\n')
+print(f'Training size: '
+      f'{round(len(X_train_prepared_df)/len_df, 5)}')
+print(f'Validation size: '
+      f'{round(len(X_val_prepared_df)/len_df, 5)}')
+print(f'Testing size: '
+      f'{round(len(X_test_prepared_df)/len_df, 5)}\n')
 
 # Predictive modeling
 print('Linear regression')
@@ -310,8 +308,7 @@ X_full = inside_airbnb_df.drop(['log_price'], axis=1)
 y_full = inside_airbnb_df['log_price'].copy()
 full_pipeline.fit(X_full, y_full)
 model_file = inside_airbnb_work_dir / 'model.pkl'
-if not model_file.exists():
-    print(f'Saving model file to {model_file}')
-    joblib.dump(full_pipeline, model_file)
+print(f'Saving model file to {model_file}')
+joblib.dump(full_pipeline, model_file)
 end = time.perf_counter()
 print(f"Total time: {round((end - start)/60, 2)} minutes")
