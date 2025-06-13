@@ -35,7 +35,8 @@ hist_dir.mkdir(parents=True, exist_ok=True)
 
 # Data preparation
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'selected_short_term_rentals_for_modeling.csv'
+    inside_airbnb_data_dir /
+    'selected_short_term_rentals_for_modeling.csv'
     )
 inside_airbnb_df = pd.read_csv(
     inside_airbnb_data_file,
@@ -72,9 +73,9 @@ y_test = y_test.reset_index(drop=True)
 # Data pipeline
 cat_attribs = ['borough', 'property_type', 'room_type', 'first_amenity',
                'second_amenity', 'third_amenity']
-num_attribs = ['bathrooms', 'bedrooms', 'acomodates', 'availability_365',
-               'crime_rate', 'days_from_last_review', 'log_price'
-               'distance_to_nearest_tube_station']
+num_attribs = ['bathrooms', 'bedrooms', 'accommodates', 'availability_365',
+               'crime_rate', 'distance_to_nearest_tube_station',
+               'days_from_last_review']
 
 num_pipeline = make_pipeline(
     SimpleImputer(strategy='median'),
@@ -261,9 +262,11 @@ print(f'Test R2 for support vector regressor: {round(svr_r2_score, 5)}\n\n')
 
 # OLS regression results from statsmodels
 lm = ols(
-    'log_price ~ property_type + crime_rate + bedrooms + minimum_nights '
-    '+ borough + distance_to_station + bathrooms + amenity_1 + amenity_3 '
-    '+ amenity_2', data=inside_airbnb_df
+    'log_price ~ borough + property_type + room_type + first_amenity '
+    '+ second_amenity + third_amenity + bathrooms + bedrooms + accommodates '
+    '+ availability_365 + crime_rate + distance_to_nearest_tube_station '
+    '+ days_from_last_review',
+    data=inside_airbnb_df
     )
 model = lm.fit()
 mean_log_price = np.mean(y_train)
