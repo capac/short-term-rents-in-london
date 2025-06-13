@@ -4,6 +4,7 @@
 from pathlib import Path
 import pandas as pd
 import numpy as np
+import time
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.impute import SimpleImputer
@@ -32,6 +33,9 @@ plots_dir = inside_airbnb_work_dir / 'plots'
 plots_dir.mkdir(parents=True, exist_ok=True)
 hist_dir = plots_dir / 'histograms'
 hist_dir.mkdir(parents=True, exist_ok=True)
+
+# Start of model analysis
+start = time.perf_counter()
 
 # Data preparation
 inside_airbnb_data_file = (
@@ -119,10 +123,9 @@ X_test_prepared_df = pd.DataFrame(
 )
 
 len_df = inside_airbnb_df.shape[0]
-print(f'Training size: {round(len(X_train_prepared_df)/len_df, 5):>10}')
-print(f'Validation size: {round(len(X_val_prepared_df)/len_df, 5):>8}')
-print(f'Testing size: {round(len(X_test_prepared_df)/len_df, 5):>11}\n')
-
+print(f'Training size: {round(len(X_train_prepared_df)/len_df, 5)}')
+print(f'Validation size: {round(len(X_val_prepared_df)/len_df, 5)}')
+print(f'Testing size: {round(len(X_test_prepared_df)/len_df, 5)}\n')
 
 # Predictive modeling
 print('Linear regression')
@@ -310,4 +313,5 @@ model_file = inside_airbnb_work_dir / 'model.pkl'
 if not model_file.exists():
     print(f'Saving model file to {model_file}')
     joblib.dump(full_pipeline, model_file)
-print('\nDone!')
+end = time.perf_counter()
+print(f"Total time: {round((end - start)/60, 2)} minutes")
