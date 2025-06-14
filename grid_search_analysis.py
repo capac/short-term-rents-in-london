@@ -157,7 +157,7 @@ param_grid = [
 
 grid_search = GridSearchCV(
     full_pipeline, param_grid,
-    cv=5,
+    cv=5, n_jobs=-1,
     error_score='raise',
     scoring='neg_root_mean_squared_error')
 grid_search.fit(X_train_prepared_df, y_train)
