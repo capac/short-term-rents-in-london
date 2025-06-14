@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from pathlib import Path
+import time
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split, GridSearchCV
@@ -23,11 +24,8 @@ inside_airbnb_work_dir = (
     'Programming/Python/machine-learning-exercises/short-term-rents-in-london'
 )
 
-plots_dir = inside_airbnb_work_dir / 'plots'
-plots_dir.mkdir(parents=True, exist_ok=True)
-hist_dir = plots_dir / 'histograms'
-hist_dir.mkdir(parents=True, exist_ok=True)
-
+# Start of model analysis
+start = time.perf_counter()
 
 # Data preparation
 inside_airbnb_data_file = (
@@ -36,13 +34,6 @@ inside_airbnb_data_file = (
 )
 inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')
-
-inside_airbnb_df.drop(['room_type', 'nearest_station'], axis=1, inplace=True)
-inside_airbnb_df['borough'] = \
-    inside_airbnb_df['borough'].replace({r'\s': r'_'}, regex=True)
-
-inside_airbnb_df = \
-    inside_airbnb_df.loc[inside_airbnb_df['borough'] != 'Sutton']
 
 inside_airbnb_df['log_price'] = np.log1p(inside_airbnb_df['price'])
 inside_airbnb_df = inside_airbnb_df.drop('price', axis=1)
@@ -73,11 +64,11 @@ y_test = y_test.reset_index(drop=True)
 
 
 # Data pipeline
-
-cat_attribs = ['borough', 'property_type', 'amenity_1',
-               'amenity_2', 'amenity_3']
-num_attribs = ['bathrooms', 'bedrooms', 'minimum_nights',
-               'crime_rate', 'distance_to_station']
+cat_attribs = ['borough', 'property_type', 'room_type', 'first_amenity',
+               'second_amenity', 'third_amenity']
+num_attribs = ['bathrooms', 'bedrooms', 'accommodates', 'availability_365',
+               'crime_rate', 'distance_to_nearest_tube_station',
+               'days_from_last_review']
 
 num_pipeline = make_pipeline(
     SimpleImputer(strategy='median'),
@@ -120,11 +111,11 @@ X_test_prepared_df = pd.DataFrame(
 )
 
 print(f'Training size: '
-      f'{round(len(X_train_prepared_df)/len(inside_airbnb_df), 5):>10}')
+      f'{round(len(X_train_prepared_df)/len(inside_airbnb_df), 5)}')
 print(f'Validation size: '
-      f'{round(len(X_val_prepared_df)/len(inside_airbnb_df), 5):>8}')
+      f'{round(len(X_val_prepared_df)/len(inside_airbnb_df), 5)}')
 print(f'Testing size: '
-      f'{round(len(X_test_prepared_df)/len(inside_airbnb_df), 5):>11}\n')
+      f'{round(len(X_test_prepared_df)/len(inside_airbnb_df), 5)}\n')
 
 
 # Predictive modeling
@@ -181,6 +172,8 @@ cv_res = cv_res[['param_svr__C', 'param_svr__epsilon', 'split0_test_score',
 score_cols = ['split0', 'split1', 'split2', 'mean_test_rmse']
 cv_res.columns = ['C', 'epsilon'] + score_cols
 cv_res[score_cols] = -cv_res[score_cols].round(5).astype(np.float64)
-print('Best grid search values for support vector machine regressor\n')
+print('Best grid search values for support vector regressor\n')
 cv_res = cv_res.reset_index(drop=True)
 print(cv_res)
+end = time.perf_counter()
+print(f"\nTotal time: {round((end - start)/60, 2)} minutes")
