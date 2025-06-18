@@ -34,6 +34,8 @@ The price of most short-term rentals is less than £200 per night, but the distr
 
 Most short-term rentals are in the Westminister borough, with Kensington & Chelsea, Camden, and Tower Hamlets listed in second, third, and fourth places. The borough with the least number of rentals is Sutton.
 
+![](plots/histograms/attribute_histogram_plots.png "attribute_histogram_plots.png")
+
 ### Cluster analysis
 
 An analysis of possible clusters of rental properties in London was determined by finding the number of clusters that maximized the [Silhouette coefficient](https://en.wikipedia.org/wiki/Silhouette_(clustering) "https://en.wikipedia.org/wiki/Silhouette_(clustering)"). The maximum Silhouette score (0.524) is achieved with just one big cluster of properties that covers the entire city, with no other discernible subclusters visible. The Silhouette score was calculated using [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN") in Scikit-Learn, using `eps=0.03` and `min_sample=400`. Fine-tuning the `eps` and `min_sample` parameters, which are the most important parameters for DBSCAN, doesn't offer more than one cluster even at the expense of lower Silhouette scores.
