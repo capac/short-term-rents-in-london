@@ -10,6 +10,8 @@ dependencies:
   - matplotlib
   - pandas
   - scikit-learn
+  - xgboost
+  - statsmodels
   - folium
   - geopandas
   - contextily
