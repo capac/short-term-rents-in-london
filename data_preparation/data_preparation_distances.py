@@ -8,13 +8,17 @@ from scipy.spatial import KDTree
 TFL_API_URL = 'https://api.tfl.gov.uk/StopPoint/Mode/tube'
 
 home_dir = Path.home()
+
+data_dir = home_dir / 'Programming/data/inside-airbnb/london'
 inside_airbnb_data_dir = (
-    home_dir / 'Programming/data/inside-airbnb/london')
+    home_dir / data_dir / '2024-12-11'
+)
+inside_airbnb_data_file = (
+    inside_airbnb_data_dir / 'listings.csv')
+
 crime_rate_dir = (
     home_dir / 'Programming/data/crime-rate/')
 
-inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'listings.csv')
 crime_rate_data_file = (
     crime_rate_dir / 'crimerate-pro-data-table-rmp-region-towns-cities.csv')
 

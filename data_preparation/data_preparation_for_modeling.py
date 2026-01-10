@@ -3,23 +3,27 @@ import pandas as pd
 import numpy as np
 import json
 
+# working directories
 home_dir = Path.home()
-inside_airbnb_data_dir = (
-    home_dir / 'Programming/data/inside-airbnb/london')
-inside_airbnb_work_dir = (
-    home_dir /
-    'Programming/Python/machine-learning-exercises/short-term-rents-in-london')
+data_dir = home_dir / 'Programming/data/inside-airbnb/london'
+inside_airbnb_data_dir = data_dir / '2024-12-11'
+
+work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
+inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
 
 selected_data_file = (
     inside_airbnb_data_dir /
-    'selected_short_term_rentals_with_distances_and_amenities.csv')
+    'selected_short_term_rentals_with_distances_and_amenities.csv'
+    )
 output_data_file = (
     inside_airbnb_data_dir /
-    'selected_short_term_rentals_for_modeling.csv')
+    'selected_short_term_rentals_for_modeling.csv'
+    )
 
 json_file = (
     inside_airbnb_work_dir /
-    'foursquare_categories/foursquare_categories.json')
+    'foursquare_categories/foursquare_categories.json'
+    )
 
 top_level_category_names_list = []
 with open(json_file, 'r') as f:

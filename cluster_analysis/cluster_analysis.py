@@ -10,7 +10,7 @@ from sklearn.cluster import DBSCAN
 
 home_dir = Path.home()
 inside_airbnb_data_dir = (
-    home_dir / 'Programming/data/inside-airbnb/london'
+    home_dir / 'Programming/data/inside-airbnb/london/2024-12-11'
     )
 inside_airbnb_data_file = (
     inside_airbnb_data_dir / 'selected_short_term_rentals_for_modeling.csv'

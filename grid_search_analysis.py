@@ -14,15 +14,13 @@ from sklearn.svm import SVR
 from sklearn.metrics import root_mean_squared_error, r2_score
 from sklearn.model_selection import cross_val_score
 
+# working directories
 home_dir = Path.home()
-inside_airbnb_data_dir = (
-    home_dir /
-    'Programming/data/inside-airbnb/london'
-)
-inside_airbnb_work_dir = (
-    home_dir /
-    'Programming/Python/machine-learning-exercises/short-term-rents-in-london'
-)
+data_dir = home_dir / 'Programming/data/inside-airbnb/london'
+inside_airbnb_data_dir = data_dir / '2024-12-11'
+
+work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
+inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
 
 # Start of model analysis
 start = time.perf_counter()

@@ -5,22 +5,25 @@ import numpy as np
 
 # working directories
 home_dir = Path.home()
-inside_airbnb_data_path = home_dir / 'Programming/data/inside-airbnb/london'
-inside_airbnb_work_path = (
-    home_dir / 'Programming/Python/machine-learning-exercises/'
-    'short-term-rents-in-london')
+data_dir = home_dir / 'Programming/data/inside-airbnb/london'
+inside_airbnb_data_dir = data_dir / '2024-12-11'
+
+work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
+inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
+
 inside_airbnb_data_file = (
-    inside_airbnb_data_path /
+    inside_airbnb_data_dir /
     'selected_short_term_rentals_for_modeling.csv')
+
 inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')
 
 # output direcotry for plots
-path_plots = inside_airbnb_work_path / 'plots' / 'histograms'
+path_plots = inside_airbnb_work_dir / 'plots' / 'histograms'
 path_plots.mkdir(exist_ok=True, parents=True)
 
 # matplotlib style file
-mplstyle_file = inside_airbnb_work_path / 'barplot-style.mplstyle'
+mplstyle_file = inside_airbnb_work_dir / 'barplot-style.mplstyle'
 plt.style.use(mplstyle_file)
 
 

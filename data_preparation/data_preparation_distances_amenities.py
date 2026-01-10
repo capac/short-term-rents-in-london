@@ -11,18 +11,21 @@ FOURSQUARE_API_KEY = os.environ['FOURSQUARE_API_KEY']
 FOURSQUARE_URL = 'https://api.foursquare.com/v3/places/search'
 
 home_dir = Path.home()
-inside_airbnb_data_dir = (
-    home_dir / 'Programming/data/inside-airbnb/london')
-inside_airbnb_work_dir = (
-    home_dir /
-    'Programming/Python/machine-learning-exercises/short-term-rents-in-london')
+
+data_dir = home_dir / 'Programming/data/inside-airbnb/london'
+inside_airbnb_data_dir = data_dir / '2024-12-11'
+
+work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
+inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
 
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'selected_short_term_rentals_with_distances.csv')
+    inside_airbnb_data_dir / 'selected_short_term_rentals_with_distances.csv'
+    )
 cache_file = inside_airbnb_data_dir / 'amenities_cache.csv'
 output_file = (
     inside_airbnb_data_dir /
-    'selected_short_term_rentals_with_distances_and_amenities.csv')
+    'selected_short_term_rentals_with_distances_and_amenities.csv'
+    )
 
 if os.path.exists(output_file):
     inside_airbnb_df = pd.read_csv(output_file)

@@ -13,15 +13,14 @@ import geopandas as gpd
 from shapely.geometry import Point
 import contextily as ctx
 
-
+# working directories
 home_dir = Path.home()
-inside_airbnb_data_dir = (
-    home_dir / 'Programming/data/inside-airbnb/london'
-    )
-inside_airbnb_work_dir = (
-    home_dir /
-    'Programming/Python/machine-learning-exercises/short-term-rents-in-london'
-    )
+data_dir = home_dir / 'Programming/data/inside-airbnb/london'
+inside_airbnb_data_dir = data_dir / '2024-12-11'
+
+work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
+inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
+
 plots_dir = inside_airbnb_work_dir / 'plots'
 plots_dir.mkdir(parents=True, exist_ok=True)
 sil_coeff_dir = inside_airbnb_work_dir / 'plots' / 'silhouette_coefficients'
