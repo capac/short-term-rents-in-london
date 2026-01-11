@@ -10,9 +10,8 @@ TFL_API_URL = 'https://api.tfl.gov.uk/StopPoint/Mode/tube'
 home_dir = Path.home()
 
 data_dir = home_dir / 'Programming/data/inside-airbnb/london'
-inside_airbnb_data_dir = (
-    home_dir / data_dir / '2024-12-11'
-)
+inside_airbnb_data_dir = data_dir / '2024-12-11'
+
 inside_airbnb_data_file = (
     inside_airbnb_data_dir / 'listings.csv')
 
@@ -20,8 +19,10 @@ crime_rate_dir = (
     home_dir / 'Programming/data/crime-rate/')
 
 crime_rate_data_file = (
-    crime_rate_dir / 'crimerate-pro-data-table-rmp-region-towns-cities.csv')
+    crime_rate_dir / 'crimerate-pro-data-table-rmp-region-towns-cities.csv'
+    )
 
+# crime rate dataset
 crime_rate_df = pd.read_csv(
     crime_rate_data_file, usecols=['Borough', 'Crime Rate'])
 crime_rate_df.rename(
@@ -29,6 +30,7 @@ crime_rate_df.rename(
     inplace=True)
 crime_rate_df = crime_rate_df[crime_rate_df.borough != 'DownloadCSVExcelTSV']
 
+# Inside AirBNB dataset
 columns_list = [
     'neighbourhood_cleansed', 'latitude', 'longitude', 'accommodates',
     'bedrooms', 'bathrooms', 'property_type', 'room_type', 'availability_365',
@@ -42,6 +44,7 @@ inside_airbnb_df.rename(
     inplace=True)
 inside_airbnb_df.price = inside_airbnb_df.price.str.replace('$', '')
 
+# removal of null values in the Inside AirBNB data
 print('Removing not-a-number values')
 inside_airbnb_df = inside_airbnb_df.loc[
     (inside_airbnb_df.bathrooms.notna() &
@@ -55,18 +58,21 @@ inside_airbnb_df['days_from_last_review'] = (
 inside_airbnb_df.drop(['calendar_last_scraped', 'last_review'],
                       axis=1, inplace=True)
 
+# using only properties reviewed in the last six months
 print('Retaining only properties reviewed within the last six months')
 six_months_in_days = 183
 inside_airbnb_df = inside_airbnb_df[
     (inside_airbnb_df['days_from_last_review'] <=
      six_months_in_days)]
 
+# using only properties occupied at least ninety days in the past year
 year_minus_ninety_days = 275
 print(f'Retaining properties that have been occupied at '
       f'least {365 - year_minus_ninety_days} days in the past year')
 inside_airbnb_df = inside_airbnb_df[
     (inside_airbnb_df.availability_365 < year_minus_ninety_days)]
 
+# retaining only property type present at least 30 times
 limit_num_categories = 30
 print(f'Retaining only property types present '
       f'{limit_num_categories} times or more')
