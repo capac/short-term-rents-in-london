@@ -10,10 +10,10 @@ axes.spines.bottom: True
 
 # Grid style
 axes.grid: true                 # display grid or not
-axes.grid.axis: y               # which axis the grid should apply to          
+axes.grid.axis: y               # which axis the grid should apply to
 grid.linewidth: 1               # in points
 grid.linestyle: :               # grid linestyle
-grid.color: A5A5A5              # grid color
+grid.color: A5A5A5            # grid color
 axes.axisbelow: True            # Sets axis gridlines below lines and patches.
 
 # Move tick labels to left side
@@ -30,10 +30,10 @@ xtick.major.pad: 2              # distance to major tick label in points
 ytick.major.pad: -30            # distance to major tick label in points
 
 # Remove major and minor ticks except for on the x-axis.
-xtick.major.size: 5             # major tick size in points
-xtick.minor.size: 0             # minor tick size in points
-ytick.major.size: 0
-ytick.minor.size: 0
+xtick.major.size: 5             # major x-axis tick size in points
+xtick.minor.size: 0             # minor x-axis tick size in points
+ytick.major.size: 0             # major y-axis tick size in points
+ytick.minor.size: 0             # minor y-axis tick size in points
 
 # Title styling
 axes.titlelocation: left        # alignment of the title: {left, right, center}
@@ -50,7 +50,7 @@ figure.dpi: 100                 # figure dots per inch
 
 # Properties for saving the figure. Ensure a high DPI when saving so we have a good resolution.
 savefig.dpi:       144          # figure dots per inch or 'figure'
-savefig.facecolor: white        # figure face color when saving
+savefig.facecolor: white      # figure face color when saving
 savefig.bbox:      tight        # {tight, standard}
 savefig.pad_inches:   0.2       # padding when bbox is set to tight
 
