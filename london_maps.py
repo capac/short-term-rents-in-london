@@ -42,6 +42,10 @@ map_df.rename(columns={'neighbourhood': 'borough'}, inplace=True)
 final_df = map_df.set_index('borough').join(
     [median_price_df, number_listings_df])
 
+# matplotlib style file
+mplstyle_file = inside_airbnb_work_dir / 'barplot-style.mplstyle'
+plt.style.use(mplstyle_file)
+
 
 # Plotting the number of listings in each borough
 fig, ax = plt.subplots(1, 1, figsize=(10, 6))
@@ -57,11 +61,12 @@ sm = plt.cm.ScalarMappable(
     )
 ax.axis('off')
 cbar = fig.colorbar(sm, ax=ax)
+cbar.ax.yaxis.set_tick_params(pad=5)
 plot_filename = plot_dir / 'number-rentals-per-borough.png'
 plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
 
 
-# Plotting the median price of listings in each borough
+# Plotting the median price of listings in each borough in GBP
 fig, ax = plt.subplots(1, 1, figsize=(10, 6))
 final_df.plot(column='price', cmap='coolwarm', ax=ax)
 ax.set_title('Median price of AirBNB rentals for each London borough',
@@ -73,6 +78,8 @@ sm = plt.cm.ScalarMappable(
         )
     )
 ax.axis('off')
-cbar = plt.colorbar(sm, ax=ax)
+cbar = fig.colorbar(sm, ax=ax)
+cbar.ax.yaxis.set_tick_params(pad=5)
+cbar.ax.set_ylabel('GBP', fontsize=10)
 plot_filename = plot_dir / 'median-price-per-borough.png'
 plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
