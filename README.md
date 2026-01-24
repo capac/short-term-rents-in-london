@@ -26,7 +26,7 @@ I added the distances from each rental unit to the closest Tube Underground stat
 
 ### Amenities data
 
-I also retrieved data on the amenities located in the vicinities of the property rentals using [Foursquare](https://foursquare.com/ "https://foursquare.com/"). Specifically, I used the `Place/Search` endpoint, the details of which can be found [here](https://api.foursquare.com/v3/places/search "https://api.foursquare.com/v3/places/search"). At most three amenity categories for each property location are retrieved using the Foursquare API, which are then set to one of ten broad category types. These types can be easily viewed in the web app under one of the `Nearby amenity category` drop-drop menus.
+I also retrieved data on the amenities located in the vicinities of the property rentals using [Foursquare](https://foursquare.com/ "https://foursquare.com/"). Specifically, I used the `Place/Search` endpoint, the details of which can be found [at the Foursquare API](https://api.foursquare.com/v3/places/search "https://api.foursquare.com/v3/places/search"). At most three amenity categories for each property location are retrieved using the Foursquare API, which are then set to one of ten broad category types. These types can be easily viewed in the web app under one of the `Nearby amenity category` drop-drop menus.
 
 ## Data preparation
 
@@ -38,19 +38,23 @@ As one can see from Figure 1, the histogram of the price distribution of short-t
 
 A few initial observations can already be gleaned from the series of histograms in Figure 1. The top two histograms of latitude and logitude show a bimodal distribution that can be ascribed primarily to the Thames river in the first plot, but is harder to ascertain in the second. This could be due to the presence of more property listing around the major London parks, mostly present in the east and west of the city.
 
-From the price histogram we observe a sharp drop in short-term rental prices per night, with a distribution heavily skewed towards the positive _x_ axis. I chose to limit the _x_ axis to £1000 as the upper limit, but there are several outliers that are even further up in price. The outliers however are still present in the model analysis. A similar distribution behavior is visible in the plot for the number of days since the last review. 
+From the price histogram we observe a sharp drop in short-term rental prices per night, with a distribution heavily skewed towards the positive _x_ axis. I chose to limit the _x_ axis to £1000 as the upper limit, but there are several outliers that are even further up in price. The outliers however are still present in the model analysis. A similar distribution behavior is visible in the plot for the number of days since the last review.
 
-![](plots/histograms/attribute_histogram_plots.png "attribute_histogram_plots.png")
+![attribute_histogram_plots](plots/histograms/attribute_histogram_plots.png "attribute_histogram_plots.png")
 
 ### Borough plots
 
 From Figure 2 one sees that most short-term rentals are present in the borough of Westminister, with Kensington & Chelsea, Camden, and Tower Hamlets listed in second, third, and fourth places respectively. The borough with the least number of rentals is Sutton.
 
-![](plots/maps/number-rentals-per-borough.png "number-rentals-per-borough.png")
+![number-rentals-per-borough](plots/maps/number-rentals-per-borough.png "number-rentals-per-borough.png")
 
 As for the median price, the borough with the highest median price per rental belongs unsurprisingly to Kensington & Chelsea, which is the borough with the most exclusive and expensive properties of the city, followed closely by the boroughs of Westminster, Camden and Lambeth.
 
-![](plots/maps/median-price-per-borough.png "median-price-per-borough.png")
+![median-price-per-borough](plots/maps/median-price-per-borough.png "median-price-per-borough.png")
+
+### Cluster analysis
+
+An analysis of possible clusters of rental properties in London was undertaken by finding the number of clusters that maximized the [Silhouette coefficient](https://en.wikipedia.org/wiki/Silhouette_(clustering) "https://en.wikipedia.org/wiki/Silhouette_(clustering)"). The maximum Silhouette score (0.524) is achieved with just one big cluster of properties that covers the entire city, with no other discernible subclusters visible. The maximum Silhouette score was calculated using [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN") in Scikit-Learn and `eps=0.03` and `min_sample=400`. Fine-tuning the `eps` and `min_sample` parameters, which are the most important parameters for DBSCAN, doesn't offer more than one cluster even at the expense of lower Silhouette scores.
 
 ## Model generation
 
