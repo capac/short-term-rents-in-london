@@ -84,18 +84,19 @@ ax.set_title('Average price per night per borough')
 plot_filename = plot_dir / 'average_price_borough.png'
 plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
 
-
 # histogram plot of attributes
 inside_airbnb_num_df = inside_airbnb_df.select_dtypes(include=[np.number])
-fig, axs = plt.subplots(nrows=4, ncols=2, figsize=(13, 10))
-num_columns = inside_airbnb_num_df.columns
-for ax, col in zip(axs.flatten(), num_columns):
+fig, axs = plt.subplots(nrows=3, ncols=2, figsize=(11, 8))
+column_names = ['latitude', 'longitude', 'bathrooms',
+                'bedrooms', 'price', 'days_from_last_review']
+for ax, col in zip(axs.flatten(), column_names):
     if col == 'price':
         ax.hist(inside_airbnb_num_df[col], bins=50, range=(100, 1000))
     else:
         ax.hist(inside_airbnb_num_df[col], bins=50)
     ax.set_ylabel(col, fontsize=10)
-    ax.set_title(f'Histogram of {col}', fontsize=12)
+    mod_col = ' '.join(col.split('_'))
+    ax.set_title(f'Histogram of {mod_col}', fontsize=12)
     ax.yaxis.set_tick_params(pad=3)
     plt.tight_layout(pad=1)
 plot_filename = plot_dir / 'attribute_histogram_plots.png'
