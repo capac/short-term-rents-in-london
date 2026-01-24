@@ -2,29 +2,37 @@
 
 ## Summary
 
-The intent of this data project is to predict prices of short-term flat rentals in London in 2024. Due to the terms of service of major UK home realtors which don't allow web scraping, I decided to use the [Inside AirBNB](https://insideairbnb.com/london/ "https://insideairbnb.com/london/") website and filter the data on short-term rentals of entire flats or buildings for London, UK. For the purposes of this study, short-term rentals are those where the overnight stay is from 1 to 999 days.
+I've built a [Streamlit](https://streamlit.io/ "https://streamlit.io/") web app to estimate the short-term rental prices of a property based on its characteristics and location in London UK for December 2024, using data from [Inside AirBNB](https://insideairbnb.com/ "https://insideairbnb.com/"), a data and advocacy website about Airbnb's impact on residential communities, and from other public data sources. The estimator web app takes as input several major property features, borough where the property is located, yearly availability of the property, days from last review (if any), distance of the property to the nearest Tube station, local amenities near the property, and borough crime rate. If you're curious, take a look at the web app at the link below.
+
+[Short-Term Rental Price Estimator &bull; Streamlit](https://rental-pricing-app.streamlit.app/ "https://rental-pricing-app.streamlit.app/")
 
 ## Data sources
 
-I decided to employ just a few of the features of the data set, notably the borough of the property location, the property and room types, the amount of people the property can accomodate, the number of bedrooms and bathrooms, price per night, the availability of the property over the last year, the number of days from the last review, and latitude and longitude of the property, which for purposes of anonymity are randomly offset by 150 meters. The data was also enriched by adding crime rate per borough, distance of the property to the nearest Tube Underground station, and local amenities in the vicinity of the property. 
-
-Beyond the main source of data, there are several, other sources used for data enrichment. Here follows a list of them.
-
 ### Short-term housing data
 
-The main bulk of the data comes from the [Inside AirBNB](https://insideairbnb.com/ "https://insideairbnb.com/") website, which is generated from data anonymously scraped from AirBNB host profiles in a number of major international cities. The data for the city of London can be found at the [webpage for London](https://insideairbnb.com/london/ "https://insideairbnb.com/london/"). The specific data used in this analysis was scraped 11 December 2024.
+Due to the terms of service of major UK home realtors which don't permit web scraping, I decided to use the [Inside AirBNB](https://insideairbnb.com/london/ "https://insideairbnb.com/london/") website and filter the data on short-term rentals of entire flats or buildings for London, UK. The data set is anonymously scraped from AirBNB host profiles in a number of major international cities. The data for London itself can be found here at the [webpage for London](https://insideairbnb.com/london/ "https://insideairbnb.com/london/"). The specific data set used in this analysis was scraped 11 December 2024. For the purposes of this study, short-term rentals are those where the overnight stay is from 1 to 999 days.
+
+For the analysis I employed several features of the InsideAirBNB data set, notably the borough of the property location, the property and room types, the amount of people the property can accomodate, the number of bedrooms and bathrooms, the price per night, the availability of the property over the last year, the number of days from the last review (if any), and latitude and longitude of the property. For the purposes of anonymity, these geographic coordinates are randomly offset by 150 meters.
+
+Beyond the main data source from InsideAirBNB, the data were also enriched by adding crime rate per borough, distance of the property to the nearest Tube Underground station, and local amenities in the vicinity of the property. Here follows a more detailed list of them.
 
 ### Crime data
 
-The crime rate data by London borough is retrieved from the [CrimeRate](https://crimerate.co.uk/ "https://crimerate.co.uk/") webpage for the [Greater London Crime Statistics](https://crimerate.co.uk/london "https://crimerate.co.uk/london"). It regards the crime rate in each borough over the period from October 2023 to September 2024.
+The crime rate data by London borough are retrieved from the [CrimeRate](https://crimerate.co.uk/ "https://crimerate.co.uk/") webpage for the [Greater London Crime Statistics](https://crimerate.co.uk/london "https://crimerate.co.uk/london") website. It regards the crime rate in each borough over the period from October 2023 to September 2024.
 
 ### Transport data
 
-I added the distances from each rental unit to the closest Tube Underground station using the `StopPoint` [endpoint](https://api.tfl.gov.uk/StopPoint/Mode/tube "https://api.tfl.gov.uk/StopPoint/Mode/tube") from the Transport for London (TfL) developer API, from which I extracted the geographical coordinates of each Tube station. Afterwards, I calculated the distance from the nearest Tube station to the rental unit using the [GeoPy](https://github.com/geopy/geopy "https://github.com/geopy/geopy") Python package.
+I added the distances from each rental unit to the closest Tube Underground station using the `StopPoint` [endpoint](https://api.tfl.gov.uk/StopPoint/Mode/tube "https://api.tfl.gov.uk/StopPoint/Mode/tube") from the Transport for London (TfL) developer API, from which I extracted the geographic coordinates of each Tube station. Afterwards, I calculated the distance from the nearest Tube station to the rental unit using the [GeoPy](https://github.com/geopy/geopy "https://github.com/geopy/geopy") Python package.
 
 ### Amenities data
 
-I also decided to retrieve data on the amenities located in the vicinities of the property rentals using [Foursquare](https://foursquare.com/ "https://foursquare.com/"). Specifically, I used the `Place/Search` endpoint, the details of which can be found [here](https://api.foursquare.com/v3/places/search "https://api.foursquare.com/v3/places/search").
+I also retrieved data on the amenities located in the vicinities of the property rentals using [Foursquare](https://foursquare.com/ "https://foursquare.com/"). Specifically, I used the `Place/Search` endpoint, the details of which can be found [here](https://api.foursquare.com/v3/places/search "https://api.foursquare.com/v3/places/search"). At most three amenity categories for each property location are retrieved using the Foursquare API, which are then set to one of ten broad category types. These types can be easily viewed in the web app under one of the `Nearby amenity category` drop-drop menus.
+
+## Data preparation
+
+For the purposes of the data preparation, null values were removed from the data set and only properties reviewed within the last six months were retained in the data set. Also, only properties that were occupied at least 90 days in the past year were preserved for the analysis, and just the most frequent property types, present at least 30 times, were kept for the analysis. These types can be easily selected and viewed in the web app under the `Property Type` drop-drop menu.
+
+As one can see from Figure 1, the histogram of the price distribution of short-term rentals is heavily skewed towards the positive end of the _x_ axis, so for the machine learning model generation the price feature was transformed into the logarithm of the price feature plus 1. This new feature is much more normally distributed compared to the previous feature, and helps to produce machine learning models with more accurate predictions.
 
 ## Exploratory data analysis
 
