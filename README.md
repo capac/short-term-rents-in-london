@@ -36,13 +36,21 @@ As one can see from Figure 1, the histogram of the price distribution of short-t
 
 ## Exploratory data analysis
 
-The histogram of the price distribution of short-term rentals is heavily skewed towards the positive end of the _x_ axis, so it is a good idea to replace the price feature plus 1 with its logarithm. The logarithm of the price feature plus 1 is much more normally distributed as a consequence of the transformation.
+A few initial observations can already be gleaned from the series of histograms in Figure 1. The top two histograms of latitude and logitude show a bimodal distribution that can be ascribed primarily to the Thames river in the first plot, but is harder to ascertain in the second. This could be due to the presence of more property listing around the major London parks, mostly present in the east and west of the city.
 
-The price of most short-term rentals is less than £200 per night, but the distribution is heavily skewed towards the positive _x_ axis. I chose to limit the _x_ axis to £1000 as the upper limit, but there are several outliers that are even further up in price. The outliers however are still present in the model analysis.
-
-Most short-term rentals are in the Westminister borough, with Kensington & Chelsea, Camden, and Tower Hamlets listed in second, third, and fourth places. The borough with the least number of rentals is Sutton.
+From the price histogram we observe a sharp drop in short-term rental prices per night, with a distribution heavily skewed towards the positive _x_ axis. I chose to limit the _x_ axis to £1000 as the upper limit, but there are several outliers that are even further up in price. The outliers however are still present in the model analysis. A similar distribution behavior is visible in the plot for the number of days since the last review. 
 
 ![](plots/histograms/attribute_histogram_plots.png "attribute_histogram_plots.png")
+
+### Borough plots
+
+From Figure 2 one sees that most short-term rentals are present in the borough of Westminister, with Kensington & Chelsea, Camden, and Tower Hamlets listed in second, third, and fourth places respectively. The borough with the least number of rentals is Sutton.
+
+![](plots/maps/number-rentals-per-borough.png "number-rentals-per-borough.png")
+
+As for the median price, the borough with the highest median price per rental belongs unsurprisingly to Kensington & Chelsea, which is the borough with the most exclusive and expensive properties of the city, followed closely by the boroughs of Westminster, Camden and Lambeth.
+
+![](plots/maps/median-price-per-borough.png "median-price-per-borough.png")
 
 ### Cluster analysis
 
