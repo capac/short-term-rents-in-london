@@ -6,13 +6,16 @@ channels:
   - https://repo.anaconda.com/pkgs/r
 dependencies:
   - python=3.12
-  - jupyterlab
-  - matplotlib
-  - pandas
-  - scikit-learn
-  - xgboost
-  - statsmodels
-  - folium
-  - geopandas
-  - contextily
+  - jupyterlab=4.5.3
+  - joblib=1.4.2
+  - numpy=1.26.4
+  - matplotlib=3.10.0
+  - pandas=2.2.3
+  - scikit-learn=1.6.1
+  - xgboost=3.0.1
+  - statsmodels=0.14.4
+  - geopy=2.4.1
+  - geopandas=1.0.1
+  - contextily=1.6.2
+  - shapely=2.0.6
 prefix: /opt/miniconda3/envs/london-rentals
