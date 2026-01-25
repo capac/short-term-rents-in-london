@@ -58,13 +58,66 @@ An analysis of possible clusters of rental properties in London was undertaken b
 
 ## Model generation
 
-A few regression algorithms from [Scikit-Learn](https://scikit-learn.org/stable/ "https://scikit-learn.org/stable/") were used to model the data. These were [linear regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html"), [random forest regressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html#sklearn.ensemble.RandomForestRegressor "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html#sklearn.ensemble.RandomForestRegressor"), [stocastic gradient descent regressor](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html#sklearn.linear_model.SGDRegressor "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html#sklearn.linear_model.SGDRegressor"), [support vector regressor](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html#sklearn.svm.SVR "https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html#sklearn.svm.SVR") and [XGBoost regressor](https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.XGBRegressor "https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.XGBRegressor"). The performance of the algorithms was determined based on the best (lowest) root mean squared error (RMSE). The support vector regressor algorithm achieved the best RSME of 0.37884, which was determined using 10-fold cross validation. The RMSE for the support vector regressor using the test data set was slightly better at 0.36268.
+A few regression algorithms from [Scikit-Learn](https://scikit-learn.org/stable/ "https://scikit-learn.org/stable/") were used to model the data. These were [linear regression](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html"), [random forest regressor](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html#sklearn.ensemble.RandomForestRegressor "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html#sklearn.ensemble.RandomForestRegressor"), [stocastic gradient descent regressor](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html#sklearn.linear_model.SGDRegressor "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDRegressor.html#sklearn.linear_model.SGDRegressor"), [support vector regressor](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html#sklearn.svm.SVR "https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html#sklearn.svm.SVR") and [XGBoost regressor](https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.XGBRegressor "https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.XGBRegressor"). The performance of the algorithms was determined based on the best (lowest) root mean squared error (RMSE). The support vector regressor algorithm achieved the best RSME of 0.37884, which was determined using 10-fold cross validation. The RMSE for the support vector regressor using the test data set was slightly better at 0.36268. A grid search analysis on the support vector regressor produced the best RMSE value with `C=1.0` and `epsilon=0.1`, which are the default values for the support vector regressor.
 
-A grid search analysis on the support vector regressor produced the best RMSE value with `C=1.0` and `epsilon=0.1`, which are the default values for the support vector regressor.
+### RMSE and $R^2$ validation performance for all models
+
+|                 Model                |   RMSE  |  $R^2$  |
+|--------------------------------------|---------|---------|
+| Linear regression                    | 0.38738 | 0.69988 |
+| Random forest regressor              | 0.37294 | 0.72184 |
+| Stocastic gradient descent regressor | 0.3911  | 0.69409 |
+| Support vector regressor             | 0.37177 | 0.72358 |
+| XGBoost regressor                    | 0.39077 | 0.69461 |
+
+### Cross-Validation RMSE Results
+
+|                 Model        |  RMSE Mean | RMSE Std. Dev |
+|------------------------------|------------|---------------|
+| Linear Regression            |   0.39468  |    0.03332    |
+| Random Forest Regressor      |   0.38261  |    0.03354    |
+| Stochastic Gradient Descent  |   0.39836  |    0.03358    |
+| Support Vector Regressor     |   0.37884  |    0.03443    |
+| XGBoost Regressor            |   0.39484  |    0.02909    |
+
+### Support vector regressor using test dataset
+
+| Metric   | Value   |
+|----------|---------|
+| RMSE     | 0.36268 |
+| $R^2$    | 0.73458 |
+
+The mean and residual standard error of the price (in GBP) is 154.24 ± 55.87 (lower end 98.37, upper end 210.11). The error percentage of the residual standard error to the mean is 36.2%. This is the expected average variation of the price compared to the mean.
+
+### Residual Statistics (Price & Log-Price)
+
+| Metric                                  | Value          |
+|-----------------------------------------|----------------|
+| Mean Log Price                          | 4.85           |
+| Residual Std. Error (Log Price)         | 0.39           |
+| Mean Price (£)                          | 154.24         |
+| Residual Std. Error (£)                 | 55.87          |
+| Price Interval (£)                      | 98.37, 210.11  |
+| Residual Std. Error as % of Mean Price  | 36.2%          |
 
 [Ordinary least squares (OLS)](https://www.statsmodels.org/stable/index.html/generated/statsmodels.regression.linear_model.OLS.html#statsmodels.regression.linear_model.OLS "https://www.statsmodels.org/stable/index.html/generated/statsmodels.regression.linear_model.OLS.html#statsmodels.regression.linear_model.OLS") from [Statsmodels](https://www.statsmodels.org/stable/index.html "https://www.statsmodels.org/stable/index.html") allows us to calculate the F-statistic to determine the likelihood of association between the predictors and the outcome. In the regression results the F-statistics returns a value of 741.5 >> 1, and points to a very high association between at least one predictor and the outcome.
 
-The mean and residual standard error of the price (in GBP) is 154.24 ± 55.87 (lower end 98.37, upper end 210.11). The error percentage of the residual standard error to the mean is 36.2%. This is the expected average variation of the price compared to the mean.
+OLS Regression Summary
+
+| Statistic                      | Value        |
+|--------------------------------|--------------|
+| Dependent Variable             | log_price    |
+| R-squared                      | 0.701        |
+| Adjusted R-squared             | 0.700        |
+| F-statistic                    | 741.5        |
+| Prob (F-statistic)             | 0.00         |
+| Observations                   | 26,665       |
+| Degrees of Freedom (Model)     | 84           |
+| Degrees of Freedom (Residuals) | 26,580       |
+| Log-Likelihood                 | -12,702      |
+| AIC                            | 25,570       |
+| BIC                            | 26,270       |
+| Covariance Type                | Nonrobust    |
 
 ## Conclusions
 
