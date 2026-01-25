@@ -89,7 +89,7 @@ A few regression algorithms from [Scikit-Learn](https://scikit-learn.org/stable/
 
 The mean and residual standard error of the price (in GBP) is 154.24 ± 55.87 (lower end 98.37, upper end 210.11). The error percentage of the residual standard error to the mean is 36.2%. This is the expected average variation of the price compared to the mean.
 
-### Residual Statistics (Price & Log-Price)
+### Residual statistics (price & log-price)
 
 | Metric                                  | Value          |
 |-----------------------------------------|----------------|
@@ -102,7 +102,7 @@ The mean and residual standard error of the price (in GBP) is 154.24 ± 55.87 (l
 
 [Ordinary least squares (OLS)](https://www.statsmodels.org/stable/index.html/generated/statsmodels.regression.linear_model.OLS.html#statsmodels.regression.linear_model.OLS "https://www.statsmodels.org/stable/index.html/generated/statsmodels.regression.linear_model.OLS.html#statsmodels.regression.linear_model.OLS") from [Statsmodels](https://www.statsmodels.org/stable/index.html "https://www.statsmodels.org/stable/index.html") allows us to calculate the F-statistic to determine the likelihood of association between the predictors and the outcome. In the regression results the F-statistics returns a value of 741.5 >> 1, and points to a very high association between at least one predictor and the outcome.
 
-OLS Regression Summary
+### OLS Regression Summary
 
 | Statistic                      | Value        |
 |--------------------------------|--------------|
