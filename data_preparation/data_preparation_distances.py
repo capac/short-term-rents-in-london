@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -7,16 +10,19 @@ from scipy.spatial import KDTree
 
 TFL_API_URL = 'https://api.tfl.gov.uk/StopPoint/Mode/tube'
 
+# working directories
 home_dir = Path.home()
-
-data_dir = home_dir / 'Programming/data/inside-airbnb/london'
-inside_airbnb_data_dir = data_dir / '2024-12-11'
+data_dir = home_dir / 'Programming/data/inside-airbnb/london/2024-12-11/'
+inside_airbnb_raw_data_dir = data_dir / 'raw/'
+inside_airbnb_modified_data_dir = data_dir / 'modified/'
 
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'listings.csv')
+    inside_airbnb_raw_data_dir / 'listings.csv'
+    )
 
 crime_rate_dir = (
-    home_dir / 'Programming/data/crime-rate/')
+    home_dir / 'Programming/data/crime-rate/'
+    )
 
 crime_rate_data_file = (
     crime_rate_dir / 'crimerate-pro-data-table-rmp-region-towns-cities.csv'
@@ -130,8 +136,10 @@ inside_airbnb_df['distance_to_nearest_tube_station'] = \
         lambda row: find_nearest_station(row['latitude'], row['longitude']),
         axis=1, result_type='expand')
 
-selected_data_file = (inside_airbnb_data_dir /
-                      'selected_short_term_rentals_with_distances.csv')
+selected_data_file = (
+    inside_airbnb_modified_data_dir /
+    'selected_short_term_rentals_with_distances.csv'
+    )
 if not selected_data_file.exists():
     inside_airbnb_df.to_csv(selected_data_file, index=False)
 

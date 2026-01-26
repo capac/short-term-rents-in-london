@@ -1,4 +1,5 @@
-# /usr/bin/env python
+#!/usr/bin/env python
+# coding: utf-8
 
 import os
 from pathlib import Path
@@ -10,20 +11,22 @@ from geopy.distance import geodesic
 FOURSQUARE_API_KEY = os.environ['FOURSQUARE_API_KEY']
 FOURSQUARE_URL = 'https://api.foursquare.com/v3/places/search'
 
+# working directories
 home_dir = Path.home()
-
-data_dir = home_dir / 'Programming/data/inside-airbnb/london'
-inside_airbnb_data_dir = data_dir / '2024-12-11'
+data_dir = home_dir / 'Programming/data/inside-airbnb/london/2024-12-11/'
+inside_airbnb_raw_data_dir = data_dir / 'raw/'
+inside_airbnb_modified_data_dir = data_dir / 'modified/'
 
 work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
-inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
+inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london/'
 
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'selected_short_term_rentals_with_distances.csv'
+    inside_airbnb_modified_data_dir /
+    'selected_short_term_rentals_with_distances.csv'
     )
-cache_file = inside_airbnb_data_dir / 'amenities_cache.csv'
+cache_file = data_dir / 'amenities_cache.csv'
 output_file = (
-    inside_airbnb_data_dir /
+    inside_airbnb_modified_data_dir /
     'selected_short_term_rentals_with_distances_and_amenities.csv'
     )
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -5,18 +8,19 @@ import json
 
 # working directories
 home_dir = Path.home()
-data_dir = home_dir / 'Programming/data/inside-airbnb/london'
-inside_airbnb_data_dir = data_dir / '2024-12-11'
+data_dir = home_dir / 'Programming/data/inside-airbnb/london/2024-12-11/'
+inside_airbnb_raw_data_dir = data_dir / 'raw/'
+inside_airbnb_modified_data_dir = data_dir / 'modified/'
 
 work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
-inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
+inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london/'
 
 selected_data_file = (
-    inside_airbnb_data_dir /
+    inside_airbnb_modified_data_dir /
     'selected_short_term_rentals_with_distances_and_amenities.csv'
     )
 output_data_file = (
-    inside_airbnb_data_dir /
+    inside_airbnb_modified_data_dir /
     'selected_short_term_rentals_for_modeling.csv'
     )
 

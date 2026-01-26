@@ -15,11 +15,12 @@ import contextily as ctx
 
 # working directories
 home_dir = Path.home()
-data_dir = home_dir / 'Programming/data/inside-airbnb/london'
-inside_airbnb_data_dir = data_dir / '2024-12-11'
+data_dir = home_dir / 'Programming/data/inside-airbnb/london/2024-12-11/'
+inside_airbnb_raw_data_dir = data_dir / 'raw/'
+inside_airbnb_modified_data_dir = data_dir / 'modified/'
 
 work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
-inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
+inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london/'
 
 plots_dir = inside_airbnb_work_dir / 'plots'
 plots_dir.mkdir(parents=True, exist_ok=True)
@@ -27,7 +28,8 @@ sil_coeff_dir = inside_airbnb_work_dir / 'plots' / 'silhouette_coefficients'
 sil_coeff_dir.mkdir(parents=True, exist_ok=True)
 
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'selected_short_term_rentals_for_modeling.csv'
+    inside_airbnb_modified_data_dir /
+    'selected_short_term_rentals_for_modeling.csv'
     )
 inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')
@@ -64,7 +66,7 @@ def plot_clusters(coordinates, eps=0.03, min_samples=10):
         cluster_center_dict[c_label] = gdf_center
 
     # Load London boroughs
-    boroughs_path = inside_airbnb_data_dir / 'neighbourhoods.geojson'
+    boroughs_path = inside_airbnb_raw_data_dir / 'neighbourhoods.geojson'
     gdf_boroughs = gpd.read_file(boroughs_path).to_crs(epsg=3857)
 
     # Plotting

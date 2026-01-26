@@ -7,13 +7,14 @@ import numpy as np
 from sklearn import metrics
 from sklearn.cluster import DBSCAN
 
-
+# working directories
 home_dir = Path.home()
-inside_airbnb_data_dir = (
-    home_dir / 'Programming/data/inside-airbnb/london/2024-12-11'
-    )
+data_dir = home_dir / 'Programming/data/inside-airbnb/london/2024-12-11/'
+inside_airbnb_modified_data_dir = data_dir / 'modified/'
+
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'selected_short_term_rentals_for_modeling.csv'
+    inside_airbnb_modified_data_dir /
+    'selected_short_term_rentals_for_modeling.csv'
     )
 inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')

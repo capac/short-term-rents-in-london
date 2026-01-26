@@ -8,8 +8,9 @@ import geopandas as gpd
 
 # working directories
 home_dir = Path.home()
-data_dir = home_dir / 'Programming/data/inside-airbnb/london'
-inside_airbnb_data_dir = data_dir / '2024-12-11'
+data_dir = home_dir / 'Programming/data/inside-airbnb/london/2024-12-11/'
+inside_airbnb_raw_data_dir = data_dir / 'raw/'
+inside_airbnb_modified_data_dir = data_dir / 'modified/'
 
 work_dir = home_dir / 'Programming/Python/machine-learning-exercises/'
 inside_airbnb_work_dir = work_dir / 'short-term-rents-in-london'
@@ -19,7 +20,8 @@ plot_dir = inside_airbnb_work_dir / 'plots' / 'maps'
 plot_dir.mkdir(exist_ok=True, parents=True)
 
 inside_airbnb_data_file = (
-    inside_airbnb_data_dir / 'selected_short_term_rentals_for_modeling.csv'
+    inside_airbnb_modified_data_dir /
+    'selected_short_term_rentals_for_modeling.csv'
     )
 inside_airbnb_df = pd.read_csv(inside_airbnb_data_file,
                                keep_default_na=False, thousands=',')
@@ -33,7 +35,10 @@ number_listings_df = pd.DataFrame(inside_airbnb_df.groupby(
     inside_airbnb_df['borough']).size())
 number_listings_df.rename(columns={0: 'number_listings'}, inplace=True)
 
-neighbourhoods_file = inside_airbnb_data_dir / 'neighbourhoods.geojson'
+neighbourhoods_file = (
+    inside_airbnb_raw_data_dir /
+    'neighbourhoods.geojson'
+    )
 map_df = gpd.read_file(neighbourhoods_file)
 map_df.drop('neighbourhood_group', axis=1, inplace=True)
 map_df.rename(columns={'neighbourhood': 'borough'}, inplace=True)
