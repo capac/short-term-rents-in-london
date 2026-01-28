@@ -36,7 +36,8 @@ col_names = ['accommodates', 'availability_365',
              'distance_to_nearest_tube_station',
              'latitude', 'longitude']
 
-# removing outliers 1.5 IQR below and above the first and third quartiles
+# removing outliers 5.5 IQR below and above the first and third quartiles
+# for each numerical feature, very useful to remove extreme price outliers
 Q1 = num_dtypes_df.quantile(0.25)
 Q3 = num_dtypes_df.quantile(0.75)
 IQR = Q3 - Q1
