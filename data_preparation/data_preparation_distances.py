@@ -36,7 +36,7 @@ crime_rate_df.rename(
     inplace=True)
 crime_rate_df = crime_rate_df[crime_rate_df.borough != 'DownloadCSVExcelTSV']
 
-# Inside AirBNB dataset
+# Inside Airbnb dataset
 columns_list = [
     'neighbourhood_cleansed', 'latitude', 'longitude', 'accommodates',
     'bedrooms', 'bathrooms', 'property_type', 'room_type', 'availability_365',
@@ -50,7 +50,7 @@ inside_airbnb_df.rename(
     inplace=True)
 inside_airbnb_df.price = inside_airbnb_df.price.str.replace('$', '')
 
-# removal of null values in the Inside AirBNB data
+# removal of null values in the Inside Airbnb data
 print('Removing not-a-number values')
 inside_airbnb_df = inside_airbnb_df.loc[
     (inside_airbnb_df.bathrooms.notna() &
