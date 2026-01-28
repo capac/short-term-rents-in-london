@@ -140,7 +140,6 @@ selected_data_file = (
     inside_airbnb_modified_data_dir /
     'selected_short_term_rentals_with_distances.csv'
     )
-if not selected_data_file.exists():
-    inside_airbnb_df.to_csv(selected_data_file, index=False)
+inside_airbnb_df.to_csv(selected_data_file, index=False)
 
 print('Done!')

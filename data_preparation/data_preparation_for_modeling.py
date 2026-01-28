@@ -63,5 +63,4 @@ inside_airbnb_df[amenity_cols] = inside_airbnb_df[amenity_cols].map(
 )
 inside_airbnb_df = inside_airbnb_df.replace(np.nan, 'None')
 
-if not output_data_file.exists():
-    inside_airbnb_df.to_csv(output_data_file, index=False)
+inside_airbnb_df.to_csv(output_data_file, index=False)
