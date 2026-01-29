@@ -1,0 +1,67 @@
+Training size: 0.6
+Validation size: 0.2
+Testing size: 0.2
+
+Linear regression
+Validation RMSE for linear regression: 0.38738
+Validation R2 for linear regression: 0.69988
+
+Random forest regressor
+Validation RMSE for random forest regressor: 0.37294
+Validation R2 for random forest regressor: 0.72184
+
+Stocastic gradient descent regressor
+Validation RMSE for stocastic gradient descent: 0.3911
+Validation R2 for stocastic gradient descent: 0.69409
+
+Support vector regressor
+Validation RMSE for support vector regressor: 0.37177
+Validation R2 for support vector regressor: 0.72358
+
+XGBoost regressor
+Validation RMSE for XGBoost regressor: 0.39077
+Validation R2 for XGBoost regressor: 0.69461
+
+
+Cross validation for linear regression
+Cross-validation RMSE mean and std dev: 0.39468 ± 0.03332
+
+Cross validation for random forest regressor
+Cross-validation RMSE mean and std dev: 0.38261 ± 0.03354
+
+Cross validation for stocastic gradient descent regressor
+Cross-validation RMSE mean and std dev: 0.39836 ± 0.03358
+
+Cross validation for support vector regressor
+Cross-validation RMSE mean and std dev: 0.37884 ± 0.03443
+
+Cross validation for XGBoost regressor
+Cross-validation RMSE mean and std dev: 0.39484 ± 0.02909
+
+
+Support vector regressor using test dataset
+Test RMSE for support vector regressor: 0.36268
+Test R2 for support vector regressor: 0.73458
+
+
+Mean and residual standard error of the logarithmic price: 4.85 ± 0.39
+Mean and residual standard error of the price: 154.24 ± 55.87 (98.37, 210.11) (£)
+Error percentage of the residual standard error to the mean: 36.2%
+
+
+                            OLS Regression Results
+==============================================================================
+Dep. Variable:              log_price   R-squared:                       0.701
+Model:                            OLS   Adj. R-squared:                  0.700
+Method:                 Least Squares   F-statistic:                     741.5
+Date:                Sun, 25 Jan 2026   Prob (F-statistic):               0.00
+Time:                        08:09:55   Log-Likelihood:                -12702.
+No. Observations:               26665   AIC:                         2.557e+04
+Df Residuals:                   26580   BIC:                         2.627e+04
+Df Model:                          84
+Covariance Type:            nonrobust
+==============================================================================
+
+Calculating support vector regressor model on entire data set
+Saving model file to /Users/angelo/Programming/Python/machine-learning-exercises/short-term-rents-in-london/model.pkl
+Total time: 6.53 minutes
