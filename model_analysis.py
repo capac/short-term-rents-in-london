@@ -15,12 +15,15 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.svm import SVR
 import xgboost as xgb
 from sklearn.base import clone
-from sklearn.metrics import root_mean_squared_error, r2_score
+from sklearn.metrics import (
+    root_mean_squared_error, mean_absolute_error,
+    mean_absolute_percentage_error, r2_score,
+    )
 from sklearn.model_selection import cross_val_score
 from statsmodels.formula.api import ols
 import joblib
 
-# working directories
+# Working directories
 home_dir = Path.home()
 data_dir = home_dir / 'Programming/data/inside-airbnb/london/2024-12-11'
 inside_airbnb_modified_data_dir = data_dir / 'modified/'
@@ -41,10 +44,12 @@ inside_airbnb_df = pd.read_csv(
     keep_default_na=False, thousands=','
     )
 
-inside_airbnb_df['log_price'] = np.log1p(inside_airbnb_df['price'])
-inside_airbnb_df = inside_airbnb_df.drop('price', axis=1)
-
+# Dropping latitude and longitude due to lack of correlation with price
 inside_airbnb_df = inside_airbnb_df.drop(['latitude', 'longitude'], axis=1)
+
+# Limit rent prices to a maximum of £1000 per night
+max_limit = 1000
+inside_airbnb_df = inside_airbnb_df[inside_airbnb_df.price < max_limit]
 
 df_full_train, df_test = train_test_split(inside_airbnb_df, test_size=0.2,
                                           random_state=33,
@@ -53,12 +58,15 @@ df_train, df_val = train_test_split(df_full_train, test_size=0.25,
                                     random_state=33,
                                     stratify=df_full_train['borough'])
 
-X_train = df_train.drop(['log_price'], axis=1)
+# Transformation of price to log(price+1) in the training set
+df_train['log_price'] = np.log1p(df_train['price'])
+X_train = df_train.drop(['log_price', 'price'], axis=1)
 y_train = df_train['log_price'].copy()
-X_val = df_val.drop(['log_price'], axis=1)
-y_val = df_val['log_price'].copy()
-X_test = df_test.drop(['log_price'], axis=1)
-y_test = df_test['log_price'].copy()
+
+X_val = df_val.drop(['price'], axis=1)
+y_val = df_val['price'].copy()
+X_test = df_test.drop(['price'], axis=1)
+y_test = df_test['price'].copy()
 
 X_train = X_train.reset_index(drop=True)
 y_train = y_train.reset_index(drop=True)
@@ -116,7 +124,9 @@ X_test_prepared_df = pd.DataFrame(
     index=X_test.index,
 )
 
+# Training, validation and testing dataframe sizes
 len_df = inside_airbnb_df.shape[0]
+print(f'Size of dataframe: {inside_airbnb_df.shape}')
 print(f'Training size: '
       f'{round(len(X_train_prepared_df)/len_df, 5)}')
 print(f'Validation size: '
@@ -124,143 +134,94 @@ print(f'Validation size: '
 print(f'Testing size: '
       f'{round(len(X_test_prepared_df)/len_df, 5)}\n')
 
-# Predictive modeling
-print('Linear regression')
-lr = LinearRegression()
-lr.fit(X_train_prepared_df, y_train)
-y_pred_lr = lr.predict(X_val_prepared_df)
-lr_rmse = root_mean_squared_error(y_val, y_pred_lr)
-print(f'Validation RMSE for linear regression: {round(lr_rmse, 5)}')
-lr_r2_score = r2_score(y_val, y_pred_lr)
-print(f'Validation R2 for linear regression: {round(lr_r2_score, 5)}\n')
+data_algorithms = {
+    'linear regression': LinearRegression(),
+    'random forest regressor': RandomForestRegressor(random_state=42),
+    'stocastic gradient descent regressor': SGDRegressor(random_state=42),
+    'support vector regressor': SVR(),
+    'XGBoost regressor': xgb.XGBRegressor(
+        tree_method="hist",
+        eval_metric=root_mean_squared_error,
+        max_depth=10,
+        n_estimators=100,
+        verbosity=0,
+        ),
+    }
+
+for name, model in data_algorithms.items():
+    print(name.capitalize())
+    model.fit(X_train_prepared_df, y_train)
+    y_pred_log = model.predict(X_val_prepared_df)
+    y_pred = np.expm1(y_pred_log)
+    mae = mean_absolute_error(y_val, y_pred)
+    print(f'Validation MAE for {name}: {round(mae, 5)}')
+    mape = mean_absolute_percentage_error(y_val, y_pred)
+    print(f'Validation MAPE for {name}: {round(mape*100, 1)}%')
+    rmse = root_mean_squared_error(y_val, y_pred)
+    print(f'Validation RMSE for {name}: {round(rmse, 5)}')
+    r2 = r2_score(y_val, y_pred)
+    print(f'Validation R2 for {name}: {round(r2, 5)}\n')
+print('\n')
 
 
-print('Random forest regressor')
-rfr = RandomForestRegressor(random_state=42)
-rfr.fit(X_train_prepared_df, y_train)
-y_pred_rfr = rfr.predict(X_val_prepared_df)
-rfr_rmse = root_mean_squared_error(y_val, y_pred_rfr)
-print(f'Validation RMSE for random forest regressor: {round(rfr_rmse, 5)}')
-rfr_r2_score = r2_score(y_val, y_pred_rfr)
-print(f'Validation R2 for random forest regressor: {round(rfr_r2_score, 5)}\n')
+# Custom scorer
+def price_space_scorer(metric):
+    def scorer(estimator, X, y_log_true):
+        # Predict in log space
+        y_log_pred = estimator.predict(X)
 
+        # Back-transform
+        y_true = np.expm1(y_log_true)
+        y_pred = np.expm1(y_log_pred)
 
-print('Stocastic gradient descent regressor')
-sgdr = SGDRegressor(random_state=42)
-sgdr.fit(X_train_prepared_df, y_train)
-y_pred_sgdr = sgdr.predict(X_val_prepared_df)
-sgdr_rmse = root_mean_squared_error(y_val, y_pred_sgdr)
-print(f'Validation RMSE for stocastic gradient descent: '
-      f'{round(sgdr_rmse, 5)}')
-sgdr_r2_score = r2_score(y_val, y_pred_sgdr)
-print(f'Validation R2 for stocastic gradient descent: '
-      f'{round(sgdr_r2_score, 5)}\n')
+        return metric(y_true, y_pred)
 
-
-print('Support vector regressor')
-svr = SVR()
-svr.fit(X_train_prepared_df, y_train)
-y_pred_svr = svr.predict(X_val_prepared_df)
-svr_rmse = root_mean_squared_error(y_val, y_pred_svr)
-print(f'Validation RMSE for support vector regressor: '
-      f'{round(svr_rmse, 5)}')
-svr_r2_score = r2_score(y_val, y_pred_svr)
-print(f'Validation R2 for support vector regressor: '
-      f'{round(svr_r2_score, 5)}\n')
-
-
-print('XGBoost regressor')
-reg = xgb.XGBRegressor(
-    tree_method="hist",
-    eval_metric=root_mean_squared_error,
-    max_depth=10,
-    n_estimators=100,
-    verbosity=0,
-)
-reg.fit(
-    X_train_prepared_df, y_train, verbose=False,
-    eval_set=[(X_train_prepared_df, y_train)]
-)
-y_pred_reg = reg.predict(X_val_prepared_df)
-reg_rmse = root_mean_squared_error(y_val, y_pred_reg)
-print(f'Validation RMSE for XGBoost regressor: {round(reg_rmse, 5)}')
-reg_r2_score = r2_score(y_val, y_pred_reg)
-print(f'Validation R2 for XGBoost regressor: {round(reg_r2_score, 5)}\n\n')
+    return scorer
 
 
 # Cross validation
-print('Cross validation for linear regression')
-cloned_lr = clone(lr)
-lr_rmses = -cross_val_score(
-    cloned_lr, X_train_prepared_df, y_train,
-    scoring='neg_root_mean_squared_error',
-    cv=10,
-)
-lr_cv_sr = pd.Series(lr_rmses).describe()
-print(f"Cross-validation RMSE mean and std dev: {lr_cv_sr.loc['mean']:.5f} ± "
-      f"{lr_cv_sr.loc['std']:.5f}\n")
-
-
-print('Cross validation for random forest regressor')
-cloned_rfr = clone(rfr)
-rfr_rmses = -cross_val_score(
-    cloned_rfr, X_train_prepared_df, y_train,
-    scoring='neg_root_mean_squared_error',
-    cv=10,
-)
-rfr_cv_sr = pd.Series(rfr_rmses).describe()
-print(f"Cross-validation RMSE mean and std dev: "
-      f"{rfr_cv_sr.loc['mean']:.5f} ± "
-      f"{rfr_cv_sr.loc['std']:.5f}\n")
-
-
-print('Cross validation for stocastic gradient descent regressor')
-cloned_sgdr = clone(sgdr)
-sgdr_rmses = -cross_val_score(
-    cloned_sgdr, X_train_prepared_df, y_train,
-    scoring='neg_root_mean_squared_error',
-    cv=10,
-)
-sgdr_cv_sr = pd.Series(sgdr_rmses).describe()
-print(f"Cross-validation RMSE mean and std dev: "
-      f"{sgdr_cv_sr.loc['mean']:.5f} ± "
-      f"{sgdr_cv_sr.loc['std']:.5f}\n")
-
-
-print('Cross validation for support vector regressor')
-cloned_svr = clone(svr)
-svr_rmses = -cross_val_score(
-    cloned_svr, X_train_prepared_df, y_train,
-    scoring='neg_root_mean_squared_error',
-    cv=10,
-)
-svr_cv_sr = pd.Series(svr_rmses).describe()
-print(f"Cross-validation RMSE mean and std dev: {svr_cv_sr.loc['mean']:.5f} ± "
-      f"{svr_cv_sr.loc['std']:.5f}\n")
-
-
-print('Cross validation for XGBoost regressor')
-cloned_reg = clone(reg)
-reg_rmses = -cross_val_score(
-    cloned_reg, X_train_prepared_df, y_train,
-    scoring='neg_root_mean_squared_error',
-    cv=10,
-)
-reg_cv_sr = pd.Series(reg_rmses).describe()
-print(f"Cross-validation RMSE mean and std dev: {reg_cv_sr.loc['mean']:.5f} ± "
-      f"{reg_cv_sr.loc['std']:.5f}\n\n")
+scoring_methods = {
+    'MAE': mean_absolute_error,
+    'MAPE': mean_absolute_percentage_error,
+    'RMSE': root_mean_squared_error,
+    }
+for name, model in data_algorithms.items():
+    print(f'Cross validation for {name}')
+    cloned_model = clone(model)
+    for scorer_name, scorer in scoring_methods.items():
+        custom_scorer = price_space_scorer(scorer)
+        cv_scores = cross_val_score(
+            cloned_model, X_train_prepared_df, y_train,
+            scoring=custom_scorer, cv=5,
+            )
+        cv_sr = pd.Series(cv_scores).describe()
+        if scorer_name == 'MAPE':
+            print(f"Cross-validation {scorer_name} mean and std dev: "
+                  f"{100*cv_sr.loc['mean']:.1f} ± "
+                  f"{100*cv_sr.loc['std']:.1f} (%)")
+        print(f"Cross-validation {scorer_name} mean and std dev: "
+              f"{cv_sr.loc['mean']:.5f} ± {cv_sr.loc['std']:.5f}")
+    print('\n')
 
 
 # Results for test data set
 print('Support vector regressor using test dataset')
-y_pred_svr = svr.predict(X_test_prepared_df)
-svr_rmse = root_mean_squared_error(y_test, y_pred_svr)
+svr = SVR()
+svr.fit(X_train_prepared_df, y_train)
+y_test_pred_log_svr = svr.predict(X_test_prepared_df)
+y_test_pred_svr = np.expm1(y_test_pred_log_svr)
+svr_mae = mean_absolute_error(y_test, y_test_pred_svr)
+print(f'Test MAE for support vector regressor: {round(svr_mae, 5)}')
+svr_mape = mean_absolute_percentage_error(y_test, y_test_pred_svr)
+print(f'Test MAPE for support vector regressor: {round(svr_mape*100, 1)}%')
+svr_rmse = root_mean_squared_error(y_test, y_test_pred_svr)
 print(f'Test RMSE for support vector regressor: {round(svr_rmse, 5)}')
-svr_r2_score = r2_score(y_test, y_pred_svr)
+svr_r2_score = r2_score(y_test, y_test_pred_svr)
 print(f'Test R2 for support vector regressor: {round(svr_r2_score, 5)}\n\n')
 
 
 # OLS regression results from statsmodels
+inside_airbnb_df['log_price'] = np.log1p(inside_airbnb_df['price'])
 lm = ols(
     'log_price ~ borough + property_type + room_type + first_amenity '
     '+ second_amenity + third_amenity + bathrooms + bedrooms + accommodates '
@@ -303,8 +264,8 @@ full_pipeline = Pipeline([
     ('preprocessing', preprocessing),
     ('svm_regressor', SVR(C=1.0, epsilon=0.1)),
 ])
-X_full = inside_airbnb_df.drop(['log_price'], axis=1)
 y_full = inside_airbnb_df['log_price'].copy()
+X_full = inside_airbnb_df.drop(['log_price'], axis=1)
 full_pipeline.fit(X_full, y_full)
 model_file = inside_airbnb_work_dir / 'model.pkl'
 print(f'Saving model file to {model_file}')
