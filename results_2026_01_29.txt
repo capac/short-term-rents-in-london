@@ -1,0 +1,100 @@
+Size of dataframe: (26532, 14)
+Training size: 0.59995
+Validation size: 0.20002
+Testing size: 0.20002
+
+Linear regression
+Validation MAE for linear regression: 45.46725
+Validation MAPE for linear regression: 27.9%
+Validation RMSE for linear regression: 81.82246
+Validation R2 for linear regression: 0.58657
+
+Random forest regressor
+Validation MAE for random forest regressor: 43.19429
+Validation MAPE for random forest regressor: 26.1%
+Validation RMSE for random forest regressor: 76.73652
+Validation R2 for random forest regressor: 0.63637
+
+Stocastic gradient descent regressor
+Validation MAE for stocastic gradient descent regressor: 46.005
+Validation MAPE for stocastic gradient descent regressor: 28.4%
+Validation RMSE for stocastic gradient descent regressor: 82.15738
+Validation R2 for stocastic gradient descent regressor: 0.58317
+
+Support vector regressor
+Validation MAE for support vector regressor: 42.73367
+Validation MAPE for support vector regressor: 25.6%
+Validation RMSE for support vector regressor: 76.76824
+Validation R2 for support vector regressor: 0.63606
+
+Xgboost regressor
+Validation MAE for XGBoost regressor: 44.33569
+Validation MAPE for XGBoost regressor: 27.0%
+Validation RMSE for XGBoost regressor: 77.55666
+Validation R2 for XGBoost regressor: 0.62855
+
+
+
+Cross validation for linear regression
+Cross-validation MAE mean and std dev: 44.89426 ± 1.32703
+Cross-validation MAPE mean and std dev: 28.0 ± 0.5 (%)
+Cross-validation MAPE mean and std dev: 0.28033 ± 0.00498
+Cross-validation RMSE mean and std dev: 78.54444 ± 3.66104
+
+
+Cross validation for random forest regressor
+Cross-validation MAE mean and std dev: 42.86454 ± 1.87427
+Cross-validation MAPE mean and std dev: 26.5 ± 0.6 (%)
+Cross-validation MAPE mean and std dev: 0.26468 ± 0.00558
+Cross-validation RMSE mean and std dev: 75.14509 ± 4.38225
+
+
+Cross validation for stocastic gradient descent regressor
+Cross-validation MAE mean and std dev: 45.34201 ± 1.41788
+Cross-validation MAPE mean and std dev: 28.4 ± 0.6 (%)
+Cross-validation MAPE mean and std dev: 0.28388 ± 0.00552
+Cross-validation RMSE mean and std dev: 79.15988 ± 3.53805
+
+
+Cross validation for support vector regressor
+Cross-validation MAE mean and std dev: 42.66306 ± 1.28378
+Cross-validation MAPE mean and std dev: 26.1 ± 0.3 (%)
+Cross-validation MAPE mean and std dev: 0.26106 ± 0.00265
+Cross-validation RMSE mean and std dev: 75.16191 ± 3.73540
+
+
+Cross validation for XGBoost regressor
+Cross-validation MAE mean and std dev: 44.23493 ± 2.01804
+Cross-validation MAPE mean and std dev: 27.4 ± 0.7 (%)
+Cross-validation MAPE mean and std dev: 0.27441 ± 0.00678
+Cross-validation RMSE mean and std dev: 76.35705 ± 4.99129
+
+
+Support vector regressor using test dataset
+Test MAE for support vector regressor: 41.02093
+Test MAPE for support vector regressor: 25.6%
+Test RMSE for support vector regressor: 73.01421
+Test R2 for support vector regressor: 0.64015
+
+
+Mean and residual standard error of the logarithmic price: 4.84 ± 0.35
+Mean and residual standard error of the price: 149.66 ± 48.54 (101.12, 198.2) (£)
+Error percentage of the residual standard error to the mean: 32.4%
+
+
+                            OLS Regression Results
+==============================================================================
+Dep. Variable:              log_price   R-squared:                       0.741
+Model:                            OLS   Adj. R-squared:                  0.741
+Method:                 Least Squares   F-statistic:                     902.5
+Date:                Thu, 29 Jan 2026   Prob (F-statistic):               0.00
+Time:                        16:27:18   Log-Likelihood:                -9492.1
+No. Observations:               26532   AIC:                         1.915e+04
+Df Residuals:                   26447   BIC:                         1.985e+04
+Df Model:                          84
+Covariance Type:            nonrobust
+==============================================================================
+
+Calculating support vector regressor model on entire data set
+Saving model file to /Users/angelo/Programming/Python/machine-learning-exercises/short-term-rents-in-london/model.pkl
+Total time: 9.84 minutes
