@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import time
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import make_pipeline, Pipeline
+from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -21,7 +21,6 @@ from sklearn.metrics import (
     )
 from sklearn.model_selection import cross_val_score
 from statsmodels.formula.api import ols
-import joblib
 
 # Working directories
 home_dir = Path.home()
@@ -51,6 +50,7 @@ inside_airbnb_df = inside_airbnb_df.drop(['latitude', 'longitude'], axis=1)
 max_limit = 1000
 inside_airbnb_df = inside_airbnb_df[inside_airbnb_df.price < max_limit]
 
+# Split dataset in a 60% training set, 20% validation set and 20% testing set
 df_full_train, df_test = train_test_split(inside_airbnb_df, test_size=0.2,
                                           random_state=33,
                                           stratify=inside_airbnb_df['borough'])
@@ -124,7 +124,7 @@ X_test_prepared_df = pd.DataFrame(
     index=X_test.index,
 )
 
-# Training, validation and testing dataframe sizes
+# Training, validation and testing set sizes
 len_df = inside_airbnb_df.shape[0]
 print(f'Size of dataframe: {inside_airbnb_df.shape}')
 print(f'Training size: '
@@ -149,7 +149,10 @@ data_algorithms = {
     }
 
 for name, model in data_algorithms.items():
-    print(name.capitalize())
+    if name == 'XGBoost regressor':
+        print(name)
+    else:
+        print(name.capitalize())
     model.fit(X_train_prepared_df, y_train)
     y_pred_log = model.predict(X_val_prepared_df)
     y_pred = np.expm1(y_pred_log)
@@ -164,7 +167,7 @@ for name, model in data_algorithms.items():
 print('\n')
 
 
-# Custom scorer
+# Custom scorer for cross validation
 def price_space_scorer(metric):
     def scorer(estimator, X, y_log_true):
         # Predict in log space
@@ -204,22 +207,6 @@ for name, model in data_algorithms.items():
     print('\n')
 
 
-# Results for test data set
-print('Support vector regressor using test dataset')
-svr = SVR()
-svr.fit(X_train_prepared_df, y_train)
-y_test_pred_log_svr = svr.predict(X_test_prepared_df)
-y_test_pred_svr = np.expm1(y_test_pred_log_svr)
-svr_mae = mean_absolute_error(y_test, y_test_pred_svr)
-print(f'Test MAE for support vector regressor: {round(svr_mae, 5)}')
-svr_mape = mean_absolute_percentage_error(y_test, y_test_pred_svr)
-print(f'Test MAPE for support vector regressor: {round(svr_mape*100, 1)}%')
-svr_rmse = root_mean_squared_error(y_test, y_test_pred_svr)
-print(f'Test RMSE for support vector regressor: {round(svr_rmse, 5)}')
-svr_r2_score = r2_score(y_test, y_test_pred_svr)
-print(f'Test R2 for support vector regressor: {round(svr_r2_score, 5)}\n\n')
-
-
 # OLS regression results from statsmodels
 inside_airbnb_df['log_price'] = np.log1p(inside_airbnb_df['price'])
 lm = ols(
@@ -238,6 +225,7 @@ print(f'Mean and residual standard error of the logarithmic price: '
       f'{mean_log_price} ± '
       f'{log_rse}')
 
+# Mean and residual standard error of the price
 mean_price = (
     np.exp(mean_log_price) * (np.exp(log_rse/2)) - 1
     ).round(2)
@@ -255,20 +243,5 @@ print(f'Error percentage of the residual '
       f'standard error to the mean: {perc_error}%\n\n')
 
 print(model.summary().tables[0], end='\n\n')
-
-
-# Calculating support vector regressor model on entire
-# data set and saving model to a pickle file
-print('Calculating support vector regressor model on entire data set')
-full_pipeline = Pipeline([
-    ('preprocessing', preprocessing),
-    ('svm_regressor', SVR(C=1.0, epsilon=0.1)),
-])
-y_full = inside_airbnb_df['log_price'].copy()
-X_full = inside_airbnb_df.drop(['log_price'], axis=1)
-full_pipeline.fit(X_full, y_full)
-model_file = inside_airbnb_work_dir / 'model.pkl'
-print(f'Saving model file to {model_file}')
-joblib.dump(full_pipeline, model_file)
 end = time.perf_counter()
 print(f"Total time: {round((end - start)/60, 2)} minutes")
