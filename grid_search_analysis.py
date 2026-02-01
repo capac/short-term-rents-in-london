@@ -15,6 +15,7 @@ from sklearn.metrics import (
     root_mean_squared_error, mean_absolute_error,
     mean_absolute_percentage_error, r2_score,
     )
+from scipy.stats import t
 import joblib
 
 # working directories
@@ -106,9 +107,9 @@ X_test_prepared_df = pd.DataFrame(
 len_df = inside_airbnb_df.shape[0]
 print(f'Size of dataframe: {inside_airbnb_df.shape}')
 print(f'Training size: '
-      f'{round(len(X_train_prepared_df)/len_df, 5)}')
+      f'{round(len(X_train_prepared_df)/len_df, 3)}')
 print(f'Testing size: '
-      f'{round(len(X_test_prepared_df)/len_df, 5)}\n')
+      f'{round(len(X_test_prepared_df)/len_df, 3)}\n')
 
 # Grid search for support vector regressor
 param_grid = [
@@ -124,9 +125,7 @@ param_grid = [
 # Custom scorer for grid search cross validation
 def price_space_scorer(metric):
     def scorer(estimator, X, y_log_true):
-        # Predict in log price space
         y_log_pred = estimator.predict(X)
-        # Back-transform to price
         y_true = np.expm1(y_log_true)
         y_pred = np.expm1(y_log_pred)
         return metric(y_true, y_pred)
@@ -154,6 +153,19 @@ cv_res = cv_res.reset_index(drop=True)
 print(cv_res[cols])
 print('\n')
 
+# Uncorrected t-test between first and second models
+model_scores = cv_res.filter(regex=r'split\d*_test_score')
+differences = model_scores.iloc[0].values - model_scores.iloc[1].values
+n = differences.shape[0]
+t_stat_uncorrected = (
+    np.mean(differences) / np.sqrt(np.var(differences, ddof=1) / n)
+    )
+p_val_uncorrected = t.sf(np.abs(t_stat_uncorrected), n - 1)
+
+print(
+    f'Uncorrected t-value: {t_stat_uncorrected:.3f}\n'
+    f'Uncorrected p-value: {p_val_uncorrected:.3f}\n'
+)
 # Results for test data set
 print('Support vector regressor using test dataset')
 svr = SVR(C=cv_res.at[0, 'param_C'], epsilon=cv_res.at[0, 'param_epsilon'])
