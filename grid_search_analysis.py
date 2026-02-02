@@ -5,7 +5,9 @@ from pathlib import Path
 import time
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import (
+    train_test_split, GridSearchCV, RepeatedKFold
+    )
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.compose import ColumnTransformer
@@ -43,6 +45,12 @@ inside_airbnb_df = inside_airbnb_df.drop(['latitude', 'longitude'], axis=1)
 # Limit rent prices to a maximum of £1000 per night
 max_limit = 1000
 inside_airbnb_df = inside_airbnb_df[inside_airbnb_df.price < max_limit]
+
+# Transform price to log(price+1) over complete dataset
+inside_airbnb_df['log_price'] = np.log1p(inside_airbnb_df['price'])
+X_full_df = inside_airbnb_df.drop(['log_price'], axis=1)
+y_full_df = inside_airbnb_df['log_price'].copy()
+inside_airbnb_df = inside_airbnb_df.drop(['log_price'], axis=1)
 
 # Split dataset in a 80% training set and 20% testing set
 df_train, df_test = train_test_split(
@@ -117,8 +125,6 @@ param_grid = [
      'epsilon': [0.001, 0.01, 0.1]},
     {'C': [0.1, 1, 10],
      'epsilon': [0.1, 1, 10]},
-    {'C': [10, 100, 1000],
-     'epsilon': [10, 100, 1000]},
     ]
 
 
@@ -126,18 +132,26 @@ param_grid = [
 def price_space_scorer(metric):
     def scorer(estimator, X, y_log_true):
         y_log_pred = estimator.predict(X)
-        y_true = np.expm1(y_log_true)
         y_pred = np.expm1(y_log_pred)
+        y_true = np.expm1(y_log_true)
         return metric(y_true, y_pred)
     return scorer
 
 
+# Using full dataset
+X_full = preprocessing.fit_transform(X_full_df)
+X_full_prepared_df = pd.DataFrame(
+    data=X_full, columns=preprocessing.get_feature_names_out(),
+    index=X_full_df.index,)
+
+print('Calculating best parameters using grid search cross validation:')
 custom_scorer = price_space_scorer(r2_score)
+cv = RepeatedKFold(n_splits=5, n_repeats=8, random_state=0)
 grid_search = GridSearchCV(
     SVR(), param_grid,
-    cv=5, n_jobs=-1, error_score='raise',
+    cv=cv, n_jobs=-1, error_score='raise',
     scoring=custom_scorer)
-grid_search.fit(X_train_prepared_df, y_train)
+grid_search.fit(X_full_prepared_df, y_full_df)
 
 print(f'Best parameters: {grid_search.best_params_}\n')
 
@@ -148,12 +162,12 @@ cols = [
     'mean_test_score', 'std_test_score'
     ]
 cv_res[cols] = cv_res[cols].round(5).astype(np.float64)
-print('Best grid search values for support vector regressor\n')
+print('Best grid search values for support vector regressor:\n')
 cv_res = cv_res.reset_index(drop=True)
 print(cv_res[cols])
 print('\n')
 
-# Uncorrected t-test between first and second models
+print('Uncorrected t-test between first and second models:')
 model_scores = cv_res.filter(regex=r'split\d*_test_score')
 differences = model_scores.iloc[0].values - model_scores.iloc[1].values
 n = differences.shape[0]
@@ -165,7 +179,36 @@ p_val_uncorrected = t.sf(np.abs(t_stat_uncorrected), n - 1)
 print(
     f'Uncorrected t-value: {t_stat_uncorrected:.3f}\n'
     f'Uncorrected p-value: {p_val_uncorrected:.3f}\n'
-)
+    )
+
+
+def corrected_std(differences, n_train, n_test):
+    kr = len(differences)
+    corrected_var = np.var(differences, ddof=1) * (1 / kr + n_test / n_train)
+    corrected_std = np.sqrt(corrected_var)
+    return corrected_std
+
+
+def compute_corrected_ttest(differences, df, n_train, n_test):
+    mean = np.mean(differences)
+    std = corrected_std(differences, n_train, n_test)
+    t_stat = mean / std
+    p_val = t.sf(np.abs(t_stat), df)  # right-tailed t-test
+    return t_stat, p_val
+
+
+df = n - 1
+n_train = len(next(iter(cv.split(X_full_prepared_df, y_full_df)))[0])
+n_test = len(next(iter(cv.split(X_full_prepared_df, y_full_df)))[1])
+
+print('Corrected t-test between first and second models:')
+t_stat, p_val = compute_corrected_ttest(differences, df, n_train, n_test)
+print(
+    f'Corrected t-value: {t_stat:.3f}\n'
+    f'Corrected p-value: {p_val:.3f}\n'
+    )
+
+
 # Results for test data set
 print('Support vector regressor using test dataset')
 svr = SVR(C=cv_res.at[0, 'param_C'], epsilon=cv_res.at[0, 'param_epsilon'])
@@ -182,20 +225,18 @@ svr_r2_score = r2_score(y_test, y_test_pred_svr)
 print(f'Test R2 for support vector regressor: {round(svr_r2_score, 5)}\n\n')
 
 
-# Calculating support vector regressor model on entire
-# data set and saving model to a pickle file
-print('Calculating support vector regressor model on entire data set')
-full_pipeline = Pipeline([
+# Calculating support vector regressor model on complete
+# data set and saving best-parameter model to pickle file
+print('Calculating support vector regressor model on complete data set:')
+best_params_pipeline = Pipeline([
     ('preprocessing', preprocessing),
     ('svm_regressor',
      SVR(C=cv_res.at[0, 'param_C'], epsilon=cv_res.at[0, 'param_epsilon'])),
     ])
-inside_airbnb_df['log_price'] = np.log1p(inside_airbnb_df['price'])
-y_full = inside_airbnb_df['log_price'].copy()
-X_full = inside_airbnb_df.drop(['log_price'], axis=1)
-full_pipeline.fit(X_full, y_full)
+# Remember that model output log(price+1)
+best_params_pipeline.fit(X_full_df, y_full_df)
 model_file = inside_airbnb_work_dir / 'model.pkl'
-print(f'Saving model file to {model_file}')
-joblib.dump(full_pipeline, model_file)
+print(f'Saving best-parameter model file to {model_file}')
+joblib.dump(best_params_pipeline, model_file)
 end = time.perf_counter()
 print(f"\nTotal time: {round((end - start)/60, 2)} minutes")
