@@ -76,8 +76,8 @@ for col_name, color, ax in zip(col_names, colors, axes.flatten()):
 
 # set source text
 ax.text(x=0.08, y=-0.01,
-        s='''Source: "Data from Inside Airbnb, CrimeRate.co.uk, '''
-        '''Foursquare and Transport for London (TfL)."''',
+        s='''Source: "Data from Inside Airbnb, CrimeRate.co.uk '''
+        '''and Transport for London (TfL)."''',
         transform=fig.transFigure,
         ha='left', fontsize=8, alpha=0.7)
 
