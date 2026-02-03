@@ -57,7 +57,7 @@ fig, ax = plt.subplots(1, 1, figsize=(10, 6))
 final_df.plot(
     column='number_listings', cmap='coolwarm', ax=ax
     )
-ax.set_title('Number of AirBNB rentals for each London borough', fontsize=14)
+ax.set_title('Number of Airbnb rentals for each London borough', fontsize=14)
 sm = plt.cm.ScalarMappable(
     cmap='coolwarm', norm=plt.Normalize(
         vmin=min(final_df.number_listings),
@@ -74,7 +74,7 @@ plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
 # Plotting the median price of listings in each borough in GBP
 fig, ax = plt.subplots(1, 1, figsize=(10, 6))
 final_df.plot(column='price', cmap='coolwarm', ax=ax)
-ax.set_title('Median price of AirBNB rentals for each London borough',
+ax.set_title('Median price of Airbnb rentals for each London borough',
              fontsize=14)
 sm = plt.cm.ScalarMappable(
     cmap='coolwarm', norm=plt.Normalize(
