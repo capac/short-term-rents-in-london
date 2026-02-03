@@ -67,6 +67,13 @@ sm = plt.cm.ScalarMappable(
 ax.axis('off')
 cbar = fig.colorbar(sm, ax=ax)
 cbar.ax.yaxis.set_tick_params(pad=5)
+
+# set source text
+ax.text(x=0.08, y=-0.01,
+        s='''Source: "Data from Inside Airbnb."''',
+        transform=fig.transFigure,
+        ha='left', fontsize=8, alpha=0.7)
+
 plot_filename = plot_dir / 'number-rentals-per-borough.png'
 plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
 
@@ -86,5 +93,12 @@ ax.axis('off')
 cbar = fig.colorbar(sm, ax=ax)
 cbar.ax.yaxis.set_tick_params(pad=5)
 cbar.ax.set_ylabel('GBP', fontsize=10)
+
+# set source text
+ax.text(x=0.08, y=-0.01,
+        s='''Source: "Data from Inside Airbnb."''',
+        transform=fig.transFigure,
+        ha='left', fontsize=8, alpha=0.7)
+
 plot_filename = plot_dir / 'median-price-per-borough.png'
 plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
