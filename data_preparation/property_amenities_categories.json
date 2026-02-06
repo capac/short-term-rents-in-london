@@ -1,0 +1,190 @@
+{
+  "categories": {
+    "televisions_and_entertainment": {
+      "description": "TVs, streaming services, and entertainment devices",
+      "items": [
+        "Various sized HDTVs (10-320 inches)",
+        "Streaming services: Netflix, Amazon Prime Video, Apple TV, Disney+, HBO Max, Hulu, Fire TV, Chromecast, Roku",
+        "Standard cable, Premium cable",
+        "DVD players",
+        "Game consoles: Nintendo Wii, Nintendo Wii U, PS4, PS2, Xbox One"
+      ]
+    },
+    "sound_systems": {
+      "description": "Audio equipment and speakers",
+      "items": [
+        "Bluetooth speakers: Bose, JBL, Sony, Marshall, Beats Pill, UE Mini Boom, Pioneer",
+        "Sound systems: Sonos, Bang & Olufsen, Harman Kardon, Denon, Cambridge Audio, NAD, Monitor Audio",
+        "Smart speakers: Amazon Alexa, Google Home, Echo Show",
+        "Multi-room audio systems",
+        "Turntables and CD players"
+      ]
+    },
+    "internet_connectivity": {
+      "description": "WiFi and internet speeds",
+      "items": [
+        "Fast WiFi (59-980 Mbps)",
+        "Standard WiFi (12-48 Mbps)"
+      ]
+    },
+    "kitchen_appliances_ovens": {
+      "description": "Ovens and cooking appliances",
+      "items": [
+        "Single ovens: AEG, Neff, Miele, Beko, Bosch, Hotpoint, Zanussi, SMEG, Delonghi",
+        "Double ovens: Bertazzoni, Fischer & Paykel, Candy, Belling, Kenwood",
+        "Microwave ovens",
+        "Combination ovens",
+        "Various brands: stainless steel, electric, gas"
+      ]
+    },
+    "kitchen_appliances_hobs": {
+      "description": "Cooktops and hobs",
+      "items": [
+        "Induction hobs: Bosch, Beko, Cooke & Lewis, Whirlpool, Faber, Zanussi, IKEA, Neff, Electriq, SMEG",
+        "Gas hobs: Belling, Range Master, NEFF, Candy, Mercury, Whirlpool, Lacanche, Bora",
+        "Electric hobs: Gaggenau, British, Range Cooker",
+        "Portable hobs",
+        "AGA cookers"
+      ]
+    },
+    "refrigeration": {
+      "description": "Fridges and freezers",
+      "items": [
+        "Full-size refrigerators: Samsung, Miele, Liebherr, Fisher & Paykel, BOSCH, Siemens, SMEG, Beko",
+        "American-style fridge/freezers with ice makers",
+        "Mini fridges",
+        "Integrated refrigerators",
+        "Fridge-freezer combinations",
+        "Shared kitchen fridges with guest shelves"
+      ]
+    },
+    "small_kitchen_appliances": {
+      "description": "Coffee makers and other small appliances",
+      "items": [
+        "Coffee makers: drip, espresso machine, French press, Nespresso, Keurig, pour-over",
+        "Toasters",
+        "Bread makers",
+        "Wet bar equipment"
+      ]
+    },
+    "toiletries_shampoo": {
+      "description": "Shampoo brands and types",
+      "items": [
+        "Premium brands: Aveda, Molton Brown, Malin & Goetz, L'Occitane, Aesop, Jo Malone, Penhaligons, REDKEN",
+        "Natural/eco brands: Faith in Nature, Dr Bronner, Sukin, OGX, Organic shampoo",
+        "Standard brands: Pantene, Dove, Head & Shoulders, TreSemmé, Aussie, Alberto Balsam, Herbal Essences",
+        "Hotel/travel toiletries",
+        "Vegan and cruelty-free options"
+      ]
+    },
+    "toiletries_conditioner": {
+      "description": "Conditioner brands and types",
+      "items": [
+        "Premium brands: Aveda, Molton Brown, Aesop, Le Labo, Bvlgari, Philip Kingsley",
+        "Natural brands: Faith in Nature, Dr Organic, Sukin",
+        "Standard brands: Pantene, Dove, Head & Shoulders, TreSemmé, Aussie, L'Oréal Elvive, Herbal Essences",
+        "Hotel quality conditioners",
+        "Eco-friendly options"
+      ]
+    },
+    "toiletries_body_soap": {
+      "description": "Body wash and soap brands",
+      "items": [
+        "Premium brands: Molton Brown, Gilchrist & Soames, The White Company, Aromatherapy Associates, Aesop",
+        "Natural brands: Faith in Nature, Dr Bronner, Lush, Simple, Miniml Organic",
+        "Standard brands: Dove, Sanex, Palmolive, Radox, Carex, Nivea",
+        "Bar soaps and liquid soaps",
+        "Hotel amenities",
+        "Eco-friendly and vegan options"
+      ]
+    },
+    "swimming_pools": {
+      "description": "Pool facilities and access",
+      "items": [
+        "Private outdoor pools (seasonal or year-round, heated options)",
+        "Private indoor pools (heated, with toys and covers)",
+        "Shared outdoor pools (seasonal or year-round, heated, specific hours)",
+        "Shared indoor pools (year-round, 24-hour or specific hours)",
+        "Pool equipment and toys"
+      ]
+    },
+    "hot_tubs_and_spas": {
+      "description": "Hot tub and spa facilities",
+      "items": [
+        "Private hot tubs",
+        "Shared hot tubs (year-round, specific hours or 24-hour access)"
+      ]
+    },
+    "parking": {
+      "description": "Parking facilities and options",
+      "items": [
+        "Free parking: garage, driveway, carport on premises (1-8 spaces)",
+        "Paid parking: garage, lot, valet on premises (2-100 spaces)"
+      ]
+    },
+    "housekeeping": {
+      "description": "Cleaning and housekeeping services",
+      "items": [
+        "Daily housekeeping (various hours, extra cost or included)",
+        "Weekly housekeeping (1-3 days per week, various hours)",
+        "24-hour housekeeping availability",
+        "Specific time slots (morning, afternoon, evening)"
+      ]
+    },
+    "childcare_facilities": {
+      "description": "Equipment and amenities for children",
+      "items": [
+        "High chairs: clamp-on table seats, folding/convertible (available on request)",
+        "Children's books and toys (ages 0-2, 5-10, 10+)",
+        "Outdoor playground",
+        "Game consoles"
+      ]
+    },
+    "fitness_and_recreation": {
+      "description": "Exercise and recreational facilities",
+      "items": [
+        "Exercise equipment: free weights, stationary bike, treadmill, yoga mat, workout bench",
+        "Outdoor activities: BBQ grills (charcoal, electric), fire pit",
+        "Sports facilities: climbing wall, ski-in/ski-out access",
+        "Indoor fireplace (electric, gas)"
+      ]
+    },
+    "storage_and_organisation": {
+      "description": "Storage solutions",
+      "items": [
+        "Clothing storage: walk-in wardrobe, wardrobe, cupboards",
+        "Safe",
+        "Kitchen storage"
+      ]
+    },
+    "building_features": {
+      "description": "Building infrastructure and facilities",
+      "items": [
+        "Lift",
+        "Washer and dryer (paid in-building options)",
+        "Property manager on-site",
+        "Exterior security cameras",
+        "First aid kit",
+        "Kitchen facilities (full or shared)"
+      ]
+    },
+    "views": {
+      "description": "Property views and outlooks",
+      "items": [
+        "Desert view",
+        "Beach view",
+        "Golf course view"
+      ]
+    },
+    "miscellaneous_amenities": {
+      "description": "Other property features",
+      "items": [
+        "BBQ utensils",
+        "Wet bar",
+        "Below double oven storage",
+        "Microwave",
+        "Various premium and standard brand appliances"
+      ]
+    }
+  }
+}
