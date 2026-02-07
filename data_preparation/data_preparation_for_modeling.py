@@ -29,7 +29,6 @@ json_file = (
     'foursquare_categories/foursquare_categories.json'
     )
 
-top_level_category_names_list = []
 with open(json_file, 'r') as f:
     fsq_categories = json.load(f)
     categories = fsq_categories["response"]["categories"]
