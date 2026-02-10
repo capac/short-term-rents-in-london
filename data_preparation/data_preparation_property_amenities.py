@@ -35,7 +35,7 @@ inside_raw_airbnb_df = pd.read_csv(
     keep_default_na=False, thousands=','
     )
 
-#  just select two columns: price and property amenities
+# select just the two columns of price and property amenities
 columns = ['price', 'amenities']
 inside_raw_airbnb_df = inside_raw_airbnb_df[columns]
 
@@ -60,15 +60,17 @@ compiled_rules = {
 def get_general_category(item):
     for category, patterns in compiled_rules.items():
         for pattern in patterns:
-            if pattern.search(item):
+            if pattern.findall(item):
                 return category
     return 'Miscellaneous'
 
 
+# add zero for all category columns
 categories = list(category_rules.keys())
 for category in categories:
     inside_raw_airbnb_df[category] = 0
 
+# add one where general category is present
 amenity_df = inside_raw_airbnb_df[['amenities']]
 for index, row in amenity_df.iterrows():
     for item in row:
@@ -76,9 +78,12 @@ for index, row in amenity_df.iterrows():
         if category:
             inside_raw_airbnb_df.loc[index, category] = 1
 
+# drop 'amenities' column
 inside_raw_airbnb_df.drop(['amenities'], axis=1, inplace=True)
+# retain only row that have rent prices
 inside_raw_airbnb_df = (
     inside_raw_airbnb_df.loc[inside_raw_airbnb_df.price != 0]
     )
 
+# save to CSV file
 inside_raw_airbnb_df.to_csv(inside_airbnb_modified_data_file, index=False)
