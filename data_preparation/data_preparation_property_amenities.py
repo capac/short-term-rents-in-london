@@ -39,13 +39,13 @@ inside_raw_airbnb_df = pd.read_csv(
 columns = ['price', 'amenities']
 inside_raw_airbnb_df = inside_raw_airbnb_df[columns]
 
-# removal of null values from the Inside Airbnb data
 inside_raw_airbnb_df.price = (
     inside_raw_airbnb_df.price.str.replace(r'[$,]', '', regex=True)
     )
-inside_raw_airbnb_df = inside_raw_airbnb_df.loc[
-     inside_raw_airbnb_df.price.notna()
-     ]
+inside_raw_airbnb_df.price = (
+    inside_raw_airbnb_df.price.str.replace('', '0')
+    )
+inside_raw_airbnb_df.price = inside_raw_airbnb_df.price.astype('float')
 
 with open(json_file, 'r') as f:
     property_amenities = json.load(f)
@@ -62,8 +62,12 @@ def get_general_category(item):
         for pattern in patterns:
             if pattern.search(item):
                 return category
-    return 'None'
+    return 'Miscellaneous'
 
+
+categories = list(category_rules.keys())
+for category in categories:
+    inside_raw_airbnb_df[category] = 0
 
 amenity_df = inside_raw_airbnb_df[['amenities']]
 for index, row in amenity_df.iterrows():
@@ -73,4 +77,8 @@ for index, row in amenity_df.iterrows():
             inside_raw_airbnb_df.loc[index, category] = 1
 
 inside_raw_airbnb_df.drop(['amenities'], axis=1, inplace=True)
+inside_raw_airbnb_df = (
+    inside_raw_airbnb_df.loc[inside_raw_airbnb_df.price != 0]
+    )
+
 inside_raw_airbnb_df.to_csv(inside_airbnb_modified_data_file, index=False)
