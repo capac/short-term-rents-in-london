@@ -4,32 +4,32 @@
       "patterns": [
         "\\bTV\\b",
         "HDTV",
-        "inch TV",
-        "inch HDTV"
+        "inch\\bTV",
+        "inch\\bHDTV"
       ]
     },
     "Streaming & Media Devices": {
       "patterns": [
         "Netflix",
-        "Amazon Prime Video",
-        "Apple TV",
-        "Fire TV",
+        "Amazon\\bPrime\\bVideo",
+        "Apple\\bTV",
+        "Fire\\bTV",
         "Roku",
         "Chromecast",
         "Disney\\+",
-        "HBO Max",
+        "HBO\\bMax",
         "Hulu",
-        "DVD player",
-        "premium cable",
-        "standard cable"
+        "DVD\\bplayer",
+        "premium\\bcable",
+        "standard\\bcable"
       ]
     },
     "Audio Equipment": {
       "patterns": [
-        "Bluetooth sound system",
-        "sound system",
+        "Bluetooth\\bsound\\bsystem",
+        "sound\\bsystem",
         "speaker",
-        "Amazon Echo",
+        "Amazon\\bEcho",
         "Marshall"
       ]
     },
@@ -37,32 +37,32 @@
       "patterns": [
         "refrigerator",
         "fridge",
-        "ice box",
-        "mini fridge",
-        "wine fridge",
-        "beer fridge"
+        "ice\\bbox",
+        "mini\\bfridge",
+        "wine\\bfridge",
+        "beer\\bfridge"
       ]
     },
     "Oven": {
       "patterns": [
         "\\boven\\b",
-        "single oven",
-        "double oven"
+        "single\\boven",
+        "double\\boven"
       ]
     },
     "Stove / Hob": {
       "patterns": [
         "stove",
         "hob",
-        "hot plates",
-        "induction hob",
-        "gas hob",
-        "electric stove"
+        "hot\\bplates",
+        "induction\\bhob",
+        "gas\\bhob",
+        "electric\\bstove"
       ]
     },
     "Kitchen Appliances": {
       "patterns": [
-        "air fryer",
+        "air\\bfryer",
         "microwave",
         "toaster",
         "kettle"
@@ -73,15 +73,14 @@
         "body soap",
         "shampoo",
         "conditioner",
-        "hand soap",
+        "hand\\bsoap",
         "sanitiser"
       ]
     },
     "Personal Care Products": {
       "patterns": [
-        "2 in 1",
-        "vegan shampoo",
-        "natural products"
+        "vegan\\bshampoo",
+        "natural\\bproducts"
       ]
     },
     "Storage": {
@@ -92,18 +91,18 @@
     },
     "Kitchenware": {
       "patterns": [
-        "stainless steel"
+        "stainless\\bsteel"
       ]
     },
     "Laundry Appliances": {
       "patterns": [
-        "washing machine",
+        "washing\\bmachine",
         "dryer"
       ]
     },
     "Heating & Cooling": {
       "patterns": [
-        "air conditioning",
+        "air\\bconditioning",
         "heater",
         "heating"
       ]
