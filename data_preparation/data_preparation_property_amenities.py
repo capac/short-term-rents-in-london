@@ -60,7 +60,7 @@ compiled_rules = {
 def get_general_category(item):
     for category, patterns in compiled_rules.items():
         for pattern in patterns:
-            if pattern.findall(item):
+            if pattern.search(item):
                 return category
     return 'Miscellaneous'
 
@@ -72,7 +72,8 @@ for category in categories:
 
 # add one where general category is present
 amenity_df = inside_raw_airbnb_df[['amenities']]
-for index, row in amenity_df.iterrows():
+for index, sr in amenity_df.iterrows():
+    row = json.loads(sr.values[0])
     for item in row:
         category = get_general_category(item)
         if category:
