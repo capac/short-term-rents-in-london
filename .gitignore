@@ -183,3 +183,6 @@ cython_debug/
 
 # HTML files
 *.html
+
+# miscellaneous files
+local_amenities_set_file.txt
