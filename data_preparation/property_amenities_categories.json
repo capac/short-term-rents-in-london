@@ -8,6 +8,17 @@
         "inch\\bHDTV"
       ]
     },
+    "Internet": {
+      "patterns": [
+      "Fast\\bwifi\\b–\\b\\d{1,4}\\b[GM]bps",
+      "wifi",
+      "Wifi",
+      "fibre",
+      "broadband",
+      "Wi-Fi",
+      "WiFi"
+      ]
+    },
     "Streaming & Media Devices": {
       "patterns": [
         "Netflix",
@@ -21,7 +32,8 @@
         "Hulu",
         "DVD\\bplayer",
         "premium\\bcable",
-        "standard\\bcable"
+        "standard\\bcable",
+        "cable"
       ]
     },
     "Audio Equipment": {
@@ -30,7 +42,16 @@
         "sound\\bsystem",
         "speaker",
         "Amazon\\bEcho",
-        "Marshall"
+        "Marshall",
+        "Bose",
+        "CD\\bplayer"
+      ]
+    },
+    "Games & Consoles": {
+      "patterns": [
+        "Game\\bconsole",
+        "games",
+        "arcade"
       ]
     },
     "Refrigerator": {
@@ -47,7 +68,8 @@
       "patterns": [
         "\\boven\\b",
         "single\\boven",
-        "double\\boven"
+        "double\\boven",
+        "gas\\boven"
       ]
     },
     "Stove / Hob": {
@@ -56,8 +78,10 @@
         "hob",
         "hot\\bplates",
         "induction\\bhob",
+        "induction\\bstove",
         "gas\\bhob",
-        "electric\\bstove"
+        "electric\\bstove",
+        "cooking\\brange"
       ]
     },
     "Kitchen Appliances": {
@@ -65,20 +89,17 @@
         "air\\bfryer",
         "microwave",
         "toaster",
-        "kettle"
+        "kettle",
+        "Coffee\\bmaker"
       ]
     },
     "Bathroom Toiletries": {
       "patterns": [
-        "body soap",
+        "body\\bsoap",
         "shampoo",
         "conditioner",
         "hand\\bsoap",
-        "sanitiser"
-      ]
-    },
-    "Personal Care Products": {
-      "patterns": [
+        "sanitiser",
         "vegan\\bshampoo",
         "natural\\bproducts"
       ]
@@ -86,23 +107,34 @@
     "Storage": {
       "patterns": [
         "shelf",
-        "storage"
+        "storage",
+        "cupboard",
+        "closet",
+        "wardrobe",
+        "dresser"
       ]
     },
     "Kitchenware": {
       "patterns": [
-        "stainless\\bsteel"
+        "stainless\\bsteel",
+        "pots",
+        "pans",
+        "dishes",
+        "cutlery"
       ]
     },
     "Laundry Appliances": {
       "patterns": [
         "washing\\bmachine",
-        "dryer"
+        "dryer",
+        "ironing\\bboard",
+        "iron"
       ]
     },
     "Heating & Cooling": {
       "patterns": [
         "air\\bconditioning",
+        "climate\\bcontrol",
         "heater",
         "heating"
       ]
@@ -110,7 +142,9 @@
     "Cleaning Supplies": {
       "patterns": [
         "cleaning",
-        "detergent"
+        "detergent",
+        "mop",
+        "broom"
       ]
     },
     "Furniture": {
@@ -125,12 +159,35 @@
       "patterns": [
         "lamp",
         "lighting",
-        "light"
+        "light",
+        "floor\\blamp",
+        "electric",
+        "led"
       ]
     },
-    "Electronics (Other)": {
+    "Gym & Fitness": {
       "patterns": [
-        "electric"
+        "Gym",
+        "Pool",
+        "Sauna",
+        "Exercise",
+        "yoga",
+        "Exercise\\bequipment",
+        "treadmill",
+        "elliptical",
+        "free\\b weights",
+        "stationary\\b bike",
+        "rowing",
+        "workout\\bbench"
+      ]
+    },
+    "Parking": {
+      "patterns": [
+        "parking",
+        "driveway\\bparking",
+        "garage",
+        "street\\bparking",
+        "carport"
       ]
     },
     "Miscellaneous": {
