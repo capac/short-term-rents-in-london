@@ -21,19 +21,18 @@
     },
     "Streaming & Media Devices": {
       "patterns": [
-        "Netflix",
-        "Amazon\\bPrime\\bVideo",
-        "Apple\\bTV",
-        "Fire\\bTV",
-        "Roku",
-        "Chromecast",
-        "Disney\\+",
-        "HBO\\bMax",
-        "Hulu",
-        "DVD\\bplayer",
-        "premium\\bcable",
-        "standard\\bcable",
-        "cable"
+        "HDTV\\bwith\\bpremium\\bcable",
+        "HDTV\\bwith\\bstandard\\bcable",
+        "HDTV\\bwith\\bNetflix",
+        "HDTV\\bwith\\bAmazon\\bPrime\\bVideo",
+        "HDTV\\bwith\\bApple\\bTV",
+        "HDTV\\bwith\\bFire\\bTV",
+        "HDTV\\bwith\\bRoku",
+        "HDTV\\bwith\\bChromecast",
+        "HDTV\\bwith\\bDisney\\+",
+        "HDTV\\bwith\\bHBO\\bMax",
+        "HDTV\\bwith\\bHulu",
+        "HDTV\\bwith\\bDVD\\bplayer"
       ]
     },
     "Audio Equipment": {
