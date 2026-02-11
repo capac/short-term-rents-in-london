@@ -2,15 +2,14 @@
   "categories": {
     "Television": {
       "patterns": [
-        "\\bTV\\b",
-        "HDTV",
-        "inch\\bTV",
-        "inch\\bHDTV"
+        "\\s+TV\\s+",
+        "inch\\s+TV",
+        "inch\\s+HDTV"
       ]
     },
-    "Internet": {
+    "Wi-Fi": {
       "patterns": [
-      "Fast\\bwifi\\b–\\b\\d{1,4}\\b[GM]bps",
+      "Fast\\s+wifi\\s+–\\s+\\d{1,4}\\s+[GM]bps",
       "wifi",
       "Wifi",
       "fibre",
@@ -21,34 +20,34 @@
     },
     "Streaming & Media Devices": {
       "patterns": [
-        "HDTV\\bwith\\bpremium\\bcable",
-        "HDTV\\bwith\\bstandard\\bcable",
-        "HDTV\\bwith\\bNetflix",
-        "HDTV\\bwith\\bAmazon\\bPrime\\bVideo",
-        "HDTV\\bwith\\bApple\\bTV",
-        "HDTV\\bwith\\bFire\\bTV",
-        "HDTV\\bwith\\bRoku",
-        "HDTV\\bwith\\bChromecast",
-        "HDTV\\bwith\\bDisney\\+",
-        "HDTV\\bwith\\bHBO\\bMax",
-        "HDTV\\bwith\\bHulu",
-        "HDTV\\bwith\\bDVD\\bplayer"
+        "^HDTV\\s+with\\s+premium\\s+cable",
+        "^HDTV\\s+with\\s+standard\\s+cable",
+        "^HDTV\\s+with\\s+Netflix",
+        "^HDTV\\s+with\\s+Amazon\\s+Prime\\s+Video",
+        "^HDTV\\s+with\\s+Apple\\s+TV",
+        "^HDTV\\s+with\\s+Fire\\s+TV",
+        "^HDTV\\s+with\\s+Roku",
+        "^HDTV\\s+with\\s+Chromecast",
+        "^HDTV\\s+with\\s+Disney\\+",
+        "^HDTV\\s+with\\s+HBO\\s+Max",
+        "^HDTV\\s+with\\s+Hulu",
+        "^HDTV\\s+with\\s+DVD\\s+player"
       ]
     },
     "Audio Equipment": {
       "patterns": [
-        "Bluetooth\\bsound\\bsystem",
-        "sound\\bsystem",
+        "Bluetooth\\s+sound\\s+system",
+        "sound\\s+system",
         "speaker",
-        "Amazon\\bEcho",
+        "Amazon\\s+Echo",
         "Marshall",
         "Bose",
-        "CD\\bplayer"
+        "CD\\s+player"
       ]
     },
     "Games & Consoles": {
       "patterns": [
-        "Game\\bconsole",
+        "Game\\s+console",
         "games",
         "arcade"
       ]
@@ -57,50 +56,52 @@
       "patterns": [
         "refrigerator",
         "fridge",
-        "ice\\bbox",
-        "mini\\bfridge",
-        "wine\\bfridge",
-        "beer\\bfridge"
+        "ice\\s+box",
+        "mini\\s+fridge",
+        "wine\\s+fridge",
+        "beer\\s+fridge"
       ]
     },
     "Oven": {
       "patterns": [
-        "\\boven\\b",
-        "single\\boven",
-        "double\\boven",
-        "gas\\boven"
+        "\\s+oven\\s+",
+        "single\\s+oven",
+        "double\\s+oven",
+        "gas\\s+oven"
       ]
     },
-    "Stove / Hob": {
+    "Cooking Stove": {
       "patterns": [
         "stove",
         "hob",
-        "hot\\bplates",
-        "induction\\bhob",
-        "induction\\bstove",
-        "gas\\bhob",
-        "electric\\bstove",
-        "cooking\\brange"
+        "hot\\s+plates",
+        "induction\\s+hob",
+        "induction\\s+stove",
+        "gas\\s+hob",
+        "electric\\s+stove",
+        "cooking\\s+range"
       ]
     },
     "Kitchen Appliances": {
       "patterns": [
-        "air\\bfryer",
+        "air\\s+fryer",
         "microwave",
         "toaster",
         "kettle",
-        "Coffee\\bmaker"
+        "Coffee\\s+maker"
       ]
     },
     "Bathroom Toiletries": {
       "patterns": [
-        "body\\bsoap",
+        "body\\s+soap",
         "shampoo",
         "conditioner",
-        "hand\\bsoap",
+        "hand\\s+soap",
         "sanitiser",
-        "vegan\\bshampoo",
-        "natural\\bproducts"
+        "vegan\\s+shampoo",
+        "natural\\s+products",
+        "Dryer",
+        "Hair\\s+dryer"
       ]
     },
     "Storage": {
@@ -115,25 +116,26 @@
     },
     "Kitchenware": {
       "patterns": [
-        "stainless\\bsteel",
+        "stainless\\s+steel",
         "pots",
         "pans",
         "dishes",
-        "cutlery"
+        "cutlery",
+        "silverware"
       ]
     },
     "Laundry Appliances": {
       "patterns": [
-        "washing\\bmachine",
+        "washing\\s+machine",
         "dryer",
-        "ironing\\bboard",
+        "ironing\\s+board",
         "iron"
       ]
     },
     "Heating & Cooling": {
       "patterns": [
-        "air\\bconditioning",
-        "climate\\bcontrol",
+        "air\\s+conditioning",
+        "climate\\s+control",
         "heater",
         "heating"
       ]
@@ -159,9 +161,9 @@
         "lamp",
         "lighting",
         "light",
-        "floor\\blamp",
+        "floor\\s+lamp",
         "electric",
-        "led"
+        "LED"
       ]
     },
     "Gym & Fitness": {
@@ -171,21 +173,21 @@
         "Sauna",
         "Exercise",
         "yoga",
-        "Exercise\\bequipment",
+        "Exercise\\s+equipment",
         "treadmill",
         "elliptical",
-        "free\\b weights",
-        "stationary\\b bike",
+        "free\\s+ weights",
+        "stationary\\s+ bike",
         "rowing",
-        "workout\\bbench"
+        "workout\\s+bench"
       ]
     },
     "Parking": {
       "patterns": [
         "parking",
-        "driveway\\bparking",
+        "driveway\\s+parking",
         "garage",
-        "street\\bparking",
+        "street\\s+parking",
         "carport"
       ]
     },
