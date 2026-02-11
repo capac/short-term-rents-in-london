@@ -5,6 +5,9 @@ import pandas as pd
 from pathlib import Path
 import json
 import re
+import time
+
+start = time.perf_counter()
 
 home_dir = Path.home()
 inside_airbnb_raw_data_dir = (
@@ -39,13 +42,20 @@ inside_raw_airbnb_df = pd.read_csv(
 columns = ['price', 'amenities']
 inside_raw_airbnb_df = inside_raw_airbnb_df[columns]
 
-inside_raw_airbnb_df.price = (
-    inside_raw_airbnb_df.price.str.replace(r'[$,]', '', regex=True)
+inside_raw_airbnb_df['price'] = (
+    inside_raw_airbnb_df['price']
+    .str.replace(r'[\$,]', '', regex=True)
+    .pipe(pd.to_numeric, errors='coerce')
+    .fillna(0)
     )
-inside_raw_airbnb_df.price = (
-    inside_raw_airbnb_df.price.str.replace('', '0')
+
+# limit prices greater than 0 and less than 1000
+inside_raw_airbnb_df = (
+    inside_raw_airbnb_df.loc[
+        (inside_raw_airbnb_df['price'] > 0) &
+        (inside_raw_airbnb_df['price'] < 1000)
+        ]
     )
-inside_raw_airbnb_df.price = inside_raw_airbnb_df.price.astype('float')
 
 with open(json_file, 'r') as f:
     property_amenities = json.load(f)
@@ -81,10 +91,9 @@ for index, sr in amenity_df.iterrows():
 
 # drop 'amenities' column
 inside_raw_airbnb_df.drop(['amenities'], axis=1, inplace=True)
-# retain only row that have rent prices
-inside_raw_airbnb_df = (
-    inside_raw_airbnb_df.loc[inside_raw_airbnb_df.price != 0]
-    )
 
 # save to CSV file
 inside_raw_airbnb_df.to_csv(inside_airbnb_modified_data_file, index=False)
+end = time.perf_counter()
+print(f'Dataframe saved to CSV file. '
+      f'Time elapsed: {round((end - start)/60, 2)} minutes.')
