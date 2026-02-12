@@ -51,9 +51,9 @@ for category, ax in zip(categories, axes.flatten()):
     ax.set_ylabel('Price (£)', fontsize=8)
     plt.setp(ax.get_yticklabels(), fontsize=8)
     ax.tick_params(axis='y', which='major', pad=5)
+    ax.yaxis.set_minor_locator(AutoMinorLocator(2))
+    ax.grid(axis='y', which='minor', linestyle=':')
     ax.set_ylim([0, 205])
-    ax.yaxis.set_minor_locator(AutoMinorLocator())
-    ax.tick_params(which='minor', length=2, color='k')
     plt.setp(
         ax.get_xticklabels(), ha='right',
         rotation_mode='anchor', rotation=45,
