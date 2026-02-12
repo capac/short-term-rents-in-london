@@ -187,6 +187,7 @@ scoring_methods = {
     'MAE': mean_absolute_error,
     'MAPE': mean_absolute_percentage_error,
     'RMSE': root_mean_squared_error,
+    'R2': r2_score,
     }
 for name, model in data_algorithms.items():
     print(f'Cross validation for {name}')
@@ -202,8 +203,9 @@ for name, model in data_algorithms.items():
             print(f"Cross-validation {scorer_name} mean and std dev: "
                   f"{100*cv_sr.loc['mean']:.1f} ± "
                   f"{100*cv_sr.loc['std']:.1f} (%)")
-        print(f"Cross-validation {scorer_name} mean and std dev: "
-              f"{cv_sr.loc['mean']:.5f} ± {cv_sr.loc['std']:.5f}")
+        else:
+            print(f"Cross-validation {scorer_name} mean and std dev: "
+                  f"{cv_sr.loc['mean']:.5f} ± {cv_sr.loc['std']:.5f}")
     print('\n')
 
 
