@@ -67,7 +67,7 @@ fig.text(x=0.08, y=-0.01,
          transform=fig.transFigure,
          ha='left', fontsize=8, alpha=0.7)
 
-fig.suptitle('Property amenity features vs rent price',
+fig.suptitle('Property amenity features vs average rent price',
              fontsize=11, fontweight='bold')
 fig.subplots_adjust(top=0.92)
 fig.savefig(plot_dir / 'category_plot.png')
