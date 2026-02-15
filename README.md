@@ -92,10 +92,12 @@ A grid search analysis on the support vector regressor with `C=1.0` and `epsilon
 
 ### Support vector regressor using test dataset
 
-Finally, using the grid-search parameters from above and the test data, the $R^2$ for the support vector regressor returned a slightly better value of 0.649.
+Finally, using the grid-search parameters from above and the test data, the $R^2$ for the support vector regressor returned a slightly better value of 0.649, and a slightly lower value of the RMSE of 72.03. I've also calculated the mean absolute error (40.54) and the mean absolute percentage error. This latter shows that on average there is a 25.2% difference between actual and predicted rental prices. This gives an idea of the expected error on predictions from the model.
 
 | Metric   | Value   |
 |----------|---------|
+| MAE      |  40.54  |
+| MAPE     |  25.2%  |
 | RMSE     |  72.03  |
 | $R^2$    |  0.649  |
 
