@@ -103,7 +103,7 @@ Finally, using the grid-search parameters from above and the test data, the $R^2
 
 ### Residual statistics (log-price & price)
 
-The mean and residual standard error of the price (in GBP) is 149.66 ± 48.54 (lower end 101.12, upper end 198.2). The error percentage of the residual standard error to the mean is 32.4%. This is the expected average variation of the price compared to the mean.
+The mean and residual standard error of the price (in GBP) is 149.66 ± 48.54 (lower end 101.12, upper end 198.2). The error percentage of the residual standard error to the mean is 32.4%. This is the expected average variation of the price compared to the regression line.
 
 | Description                             | Value          |
 |-----------------------------------------|----------------|
