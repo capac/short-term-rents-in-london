@@ -52,6 +52,8 @@ Which boroughs have the highest median price? The highest median prices can be f
 
 ![median-price-per-borough](plots/maps/median-price-per-borough.png "median-price-per-borough.png")
 
+### Property Features
+
 What property features are correlated with rent prices? From the bar plot of the property features, we can see that many features have a positive correlation with price. However, adding the parking option to properties doesn't correspond to an increase of rent prices. Moreover, there is very little price difference between properties that offer storage and those that don't.
 
 ![property_features_vs_average_price](plots/property_features_vs_average_price.png "property_features_vs_average_price.png")
