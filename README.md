@@ -58,6 +58,12 @@ What property features are correlated with average rent prices? From the bar plo
 
 ![property_features_vs_average_price](plots/property_features_vs_average_price.png "property_features_vs_average_price.png")
 
+### Correlation plot
+
+What is the correlation between the numerical features? From the correlation plot below one can notice a strong but unsurprising correlation between number of people the property can accomodate and the number of bedrooms and bathroom in the property. One can also notice a strong correlation of these former features with rental price, again not surprising.
+
+![corr_plot](plots/corr_plot.png "plots/corr_plot.png")
+
 ### Cluster analysis
 
 An analysis of possible clusters of rental properties in London was undertaken by finding the number of clusters that maximized the [Silhouette coefficient](https://en.wikipedia.org/wiki/Silhouette_(clustering) "https://en.wikipedia.org/wiki/Silhouette_(clustering)"). The maximum Silhouette score (0.524) is achieved with just one big cluster of properties that covers the entire city, with no other discernible subclusters visible. The maximum Silhouette score was calculated using [DBSCAN](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN "https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN") in Scikit-Learn and `eps=0.03` and `min_sample=400`. Fine-tuning the `eps` and `min_sample` parameters, which are the most important parameters for DBSCAN, doesn't offer more than one cluster even at the expense of lower Silhouette scores.
