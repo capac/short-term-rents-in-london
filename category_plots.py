@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import AutoMinorLocator
 import pandas as pd
 import numpy as np
+from scipy.stats import ttest_ind
 
 # working directories
 home_dir = Path.home()
@@ -37,23 +38,35 @@ fig, axes = plt.subplots(nrows=3, ncols=6, figsize=(12, 8))
 for category, ax in zip(categories, axes.flatten()):
     label_with = 'With '+category.lower()
     label_without = 'Without '+category.lower()
+    # data with category feature
     filter_with_cat = inside_airbnb_df.loc[:, category] == 1
-    filter_without_cat = inside_airbnb_df.loc[:, category] == 0
     price_with_cat = inside_airbnb_df['price'].loc[filter_with_cat]
     price_with_cat_mean = np.mean(price_with_cat)
+    price_with_cat_std = np.std(price_with_cat, ddof=1)
+    # data without category feature
+    filter_without_cat = inside_airbnb_df.loc[:, category] == 0
     price_without_cat = inside_airbnb_df['price'].loc[filter_without_cat]
     price_without_cat_mean = np.mean(price_without_cat)
+    price_without_cat_std = np.std(price_without_cat, ddof=1)
+    # t-test for the means of two independent samples of scores
+    tt = ttest_ind(price_with_cat, price_without_cat)
+    tt_st = np.round(tt.statistic, 1)
+    tt_pval = np.round(tt.pvalue, 3)
     ax.bar(
         [label_with, label_without],
-        [price_with_cat_mean, price_without_cat_mean], width=0.6,
-        alpha=0.7,
-        )
+        [price_with_cat_mean, price_without_cat_mean],
+        yerr=[price_with_cat_std, price_without_cat_std],
+        width=0.7, alpha=0.7, capsize=3, error_kw={'elinewidth': 0.8},
+        label=(f'Statistic: {tt_st}\n$p$-value: {tt_pval}'))
     ax.set_ylabel('Price (£)', fontsize=8)
     plt.setp(ax.get_yticklabels(), fontsize=8)
     ax.tick_params(axis='y', which='major', pad=5)
     ax.yaxis.set_minor_locator(AutoMinorLocator(2))
     ax.grid(axis='y', which='minor', linestyle=':')
-    ax.set_ylim([0, 205])
+    ax.legend(loc='upper right', fontsize=4,
+              handlelength=0, handletextpad=0,
+              fancybox=True)
+    ax.set_ylim([0, 430])
     plt.setp(
         ax.get_xticklabels(), ha='right',
         rotation_mode='anchor', rotation=45,
