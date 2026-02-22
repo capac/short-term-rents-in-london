@@ -60,9 +60,24 @@ What property features are correlated with average rent prices? From the bar plo
 
 ### Correlation plot
 
-What is the correlation between the numerical features? From the correlation plot below one can notice a strong but unsurprising correlation between number of people the property can accomodate and the number of bedrooms and bathroom in the property. One can also notice a strong correlation of these former features with rental price, again not surprising.
+What is the correlation between the numerical features? From the correlation plot below one can notice a strong but unsurprising correlation between number of people the property can accomodate and the number of bedrooms and bathrooms in the property. One can also notice a strong correlation of these former features with rental price, again not surprising.
 
 ![corr_plot](plots/corr_plot.png "plots/corr_plot.png")
+
+Calculating the variance inflation factor on the numerical values shows that the high correlation between the number of people the property can accomodate, the number of bedrooms and bathrooms in the property and the price isn't due to collinearity.
+
+| Feature                           | Variance inflation factor value |
+|---------------------------------  |---------------------------------|
+| bathrooms                         | 1.61                            |
+| bedrooms                          | 3.28                            |
+| accommodates                      | 3.06                            |
+| availability_365                  | 1.01                            |
+| crime_rate                        | 1.13                            |
+| distance_to_nearest_tube_station  | 1.57                            |
+| price                             | 1.89                            |
+| days_from_last_review             | 1.03                            |
+| latitude                          | 1.35                            |
+| longitude                         | 1.25                            |
 
 ### Cluster analysis
 
