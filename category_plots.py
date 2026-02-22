@@ -48,6 +48,12 @@ for category, ax in zip(categories, axes.flatten()):
     price_without_cat = inside_airbnb_df['price'].loc[filter_without_cat]
     price_without_cat_mean = np.mean(price_without_cat)
     price_without_cat_std = np.std(price_without_cat, ddof=1)
+    print(f'With category: mean ± std: '
+          f'{np.round(price_with_cat_mean, 3)}±'
+          f'{np.round(price_with_cat_std, 3):<10}'
+          f'Without category: mean ± std: '
+          f'{np.round(price_without_cat_mean, 3)}±'
+          f'{np.round(price_without_cat_std, 3)}')
     # t-test for the means of two independent samples of scores
     tt = ttest_ind(price_with_cat, price_without_cat)
     tt_st = np.round(tt.statistic, 1)
