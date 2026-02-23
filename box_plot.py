@@ -80,4 +80,6 @@ fig.suptitle('Boxplots of numerical features in '
              'dataset', fontsize=20, fontweight='bold',)
 
 fig.subplots_adjust(top=0.92)
-fig.savefig(plot_dir / 'box_plot.png')
+fig.savefig(
+    plot_dir / 'box_plot.png', bbox_inches='tight', dpi=288
+    )

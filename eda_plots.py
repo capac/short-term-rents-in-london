@@ -103,4 +103,6 @@ for ax, col in zip(axs.flatten(), column_names):
     ax.yaxis.set_tick_params(pad=3)
     plt.tight_layout(pad=1)
 plot_filename = plot_dir / 'attribute_histogram_plots.png'
-plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
+plt.savefig(
+    plot_filename, bbox_inches='tight', dpi=288
+    )

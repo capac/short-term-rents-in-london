@@ -84,4 +84,4 @@ ax.text(x=0.08, y=-0.01,
 fig.suptitle('Regression of numerical features versus price',
              fontsize=14, fontweight='bold')
 fig.subplots_adjust(top=0.92)
-fig.savefig(plot_dir / 'reg_plot.png')
+fig.savefig(plot_dir / 'reg_plot.png', bbox_inches='tight', dpi=288)

@@ -101,4 +101,4 @@ ax.text(x=0.08, y=-0.01,
         ha='left', fontsize=8, alpha=0.7)
 
 plot_filename = plot_dir / 'median-price-per-borough.png'
-plt.savefig(plot_filename, dpi=144, bbox_inches='tight')
+plt.savefig(plot_filename, dpi=288, bbox_inches='tight')

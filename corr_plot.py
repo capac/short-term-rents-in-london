@@ -91,4 +91,6 @@ axes.text(x=0.08, y=-0.01,
 fig.suptitle('Correlation of numerical features',
              fontsize=14, fontweight='bold')
 fig.subplots_adjust(top=0.92)
-fig.savefig(plot_dir / 'corr_plot.png')
+fig.savefig(
+    plot_dir / 'corr_plot.png', bbox_inches='tight', dpi=288
+    )
