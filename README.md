@@ -58,9 +58,11 @@ What property features are correlated with average rent prices? From the bar plo
 
 ![property_features_vs_average_price](plots/property_features_vs_average_price.png "property_features_vs_average_price.png")
 
+The difference in price for each features is statistically significant, with the $p$-value $<10^{-3}$ in all cases. The small 95% confidence error bars in the plot is also supportive of this point.
+
 ### Correlation plot
 
-What is the correlation between the numerical features? From the correlation plot below one can notice a strong but unsurprising correlation between number of people the property can accomodate and the number of bedrooms and bathrooms in the property. One can also notice a strong correlation of these former features with rental price, again not surprising.
+What is the correlation between the numerical features? From the correlation plot below one can notice a strong but unsurprising correlation between number of people the property can accomodate and the number of bedrooms and bathrooms in the property. One can also notice a strong correlation of these features with rental price, again not surprising.
 
 ![corr_plot](plots/corr_plot.png "plots/corr_plot.png")
 
