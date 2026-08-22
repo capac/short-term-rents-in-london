@@ -1,0 +1,18 @@
+[project]
+name = "london-rentals"
+version = "0.1.0"
+requires-python = "==3.11.*"
+dependencies = [
+    "jupyterlab==4.5.3",
+    "joblib==1.4.2",
+    "numpy==1.26.4",
+    "matplotlib==3.10.0",
+    "pandas==2.2.3",
+    "scikit-learn==1.6.1",
+    "xgboost==3.0.1",
+    "statsmodels==0.14.4",
+    "geopy==2.4.1",
+    "geopandas==1.0.1",
+    "contextily==1.6.2",
+    "shapely==2.0.6",
+]
